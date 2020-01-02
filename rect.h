@@ -1,3 +1,6 @@
+#ifndef RECTH
+#define RECTH
+
 #include "hitable.h"
 
 class xy_rect: public hitable  {
@@ -81,3 +84,5 @@ bool yz_rect::hit(const Ray& r, float t0, float t1, hit_record& rec) const {
     rec.normal = Vec(1, 0, 0);
     return true;
 }
+
+#endif

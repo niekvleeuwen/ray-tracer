@@ -6,6 +6,7 @@
 #include "material.h"
 #include "random.h"
 #include "rect.h"
+#include "cube.h"
 
 Vec color(const Ray& r, hitable *world, int depth) {
     hit_record rec;
@@ -31,14 +32,15 @@ hitable *box() {
     material *light = new diffuse_light(new constant_texture(Vec(7, 7, 7)));
 
     // ceiling
-    list[i++] = new xz_rect(113, 443, 127, 432, 554, light);
+    // list[i++] = new xz_rect(113, 443, 127, 432, 554, light);
     list[i++] = new flip_normals(new xz_rect(0, 555, 0, 555, 555, white));
     
     // left wall
     list[i++] = new flip_normals(new yz_rect(0, 555, 0, 555, 555, pink));
-    
+
     // right wall
     list[i++] = new yz_rect(0, 555, 0, 555, 0, blue);
+    list[i++] = new yz_rect(100, 455, 100, 455, 0, light);
 
     // floor
     list[i++] = new xz_rect(0, 555, 0, 555, 0, white);
@@ -47,8 +49,10 @@ hitable *box() {
     list[i++] = new flip_normals(new xy_rect(0, 555, 0, 555, 555, white));
 
     // spheres
-    list[i++] = new sphere(Vec(160, 50, 145), 50, new diffuse(Vec(0.75,0.25,0.25)));
+    //list[i++] = new sphere(Vec(160, 50, 145), 50, new diffuse(Vec(0.75,0.25,0.25)));
     list[i++] = new sphere(Vec(400, 100, 300), 100, new metal(Vec(0.7, 0.6, 0.5), 0));
+    list[i++] = new Cube(Vec(100, 0, 65), Vec(200, 100, 230), pink);
+
 
     return new hitable_list(list,i);
 }
@@ -56,7 +60,7 @@ hitable *box() {
 int main() {
     int nx = 500; //width
     int ny = 500; //height
-    int ns = 10; //number of samples per pixel
+    int ns = 100; //number of samples per pixel
 
     hitable *world = box();
 
