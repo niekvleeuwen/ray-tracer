@@ -1,10 +1,11 @@
 #ifndef VECTORH
 #define VECTORH
+#include <iostream>
 #include <math.h>
 #include <stdlib.h>
-#include <iostream>
+#include <stdio.h>
 
-class Vec  {
+class Vec {
     public:
         // Every vector has an X, Y and Z. Colors use this as (R, G, B)
         double x, y, z; 
@@ -20,11 +21,10 @@ class Vec  {
         double getY() { return y; }
         double getZ() { return z; }
 
-        double length();
+        double length() const;
         inline double squared_length() const { return x*x + y*y + z*z; }
-        inline void normalise();
+        Vec normalise() const;
         Vec& operator-=(const Vec &a);
-
         void print();
 };
 #endif

@@ -1,19 +1,32 @@
-#ifndef RAYH
-#define RAYH
-
+#ifndef RAY
+#define RAY
 #include "vector.cpp"
 
 class Ray
 {
     public:
-        Ray() {}
-        Ray(const Vec& a, const Vec& b) { A = a; B = b; }
-        Vec origin() const       { return A; }
-        Vec direction() const    { return B; }
-        Vec point_at_parameter(double t) const { return A + t*B; }
+        Vec origin;
+        Vec direction;
 
-        Vec A;
-        Vec B;
+        // Constructor of the ray
+        Ray(){}
+        Ray(const Vec& _origin, const Vec& _direction){ 
+            origin = _origin; 
+            direction= _direction; 
+        }
+
+        // Get methods
+        Vec getOrigin() const { 
+            return origin; 
+        }
+        Vec getDirection() const    { 
+            return direction; 
+        }
+
+        // Returns the vector at point 
+        Vec point(double t) const { 
+            return origin + direction*t; 
+        }
 };
 
 #endif

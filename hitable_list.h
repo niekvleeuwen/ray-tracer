@@ -1,18 +1,18 @@
 #ifndef HITABLELISTH
 #define HITABLELISTH
 
-#include "hitable.h"
+#include "basic_object.h"
 
-class hitable_list: public hitable  {
+class hitable_list: public BasicObject  {
     public:
         hitable_list() {}
-        hitable_list(hitable **l, int n) { list = l; list_size = n; }
-        virtual bool hit(const Ray& r, float tmin, float tmax, hit_record& rec) const;
-        hitable **list;
+        hitable_list(BasicObject **l, int n) { list = l; list_size = n; }
+        virtual bool hit(const Ray& r, double tmin, double tmax, hit_record& rec) const;
+        BasicObject **list;
         int list_size;
 };
 
-bool hitable_list::hit(const Ray& r, float t_min, float t_max, hit_record& rec) const {
+bool hitable_list::hit(const Ray& r, double t_min, double t_max, hit_record& rec) const {
     hit_record temp_rec;
     bool hit_anything = false;
     double closest_so_far = t_max;

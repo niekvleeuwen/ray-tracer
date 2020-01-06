@@ -1,15 +1,14 @@
 #include "vector.h"
 
 // Calculate the length
-double Vec::length() {
+double Vec::length() const {
     return sqrt(x*x + y*y + z*z);
 }
 
 // Normalise the vector
-inline void Vec::normalise() {
-    //formula for normalization is
-    double k = 1.0 / sqrt(length());
-    x *= k; y *= k; z *= k;
+Vec Vec::normalise() const {
+    double l = sqrt(x*x + y*y + z*z);
+    return Vec(x/l, y/l, z/l);
 }
 
 void Vec::print(){
