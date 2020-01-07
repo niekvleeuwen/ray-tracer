@@ -2,7 +2,7 @@
 #define CUBEH
 
 #include "plane.h"
-#include "hitable_list.h"
+#include "scene.h"
 
 class Cube: public BasicObject  {
     public:

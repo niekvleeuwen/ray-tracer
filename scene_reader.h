@@ -12,7 +12,7 @@ class SceneReader{
         SceneReader();
         int parseJson();
         bool convertJSONtoScene();
-        hitable_list *getScene();
+        Scene *getScene();
     private:
         json scene;
         BasicObject **list;
@@ -82,7 +82,7 @@ bool SceneReader::convertJSONtoScene(){
     return true;
 }
 
-hitable_list *SceneReader::getScene(){
+Scene *SceneReader::getScene(){
     material *pink = new lambertian(new constant_texture(Vec(0.75, 0.25, 0.25)));
     material *white = new lambertian(new constant_texture(Vec(0.73, 0.73, 0.73)));
     material *blue = new lambertian(new constant_texture(Vec(0.25, 0.25, 0.75)));
@@ -105,7 +105,7 @@ hitable_list *SceneReader::getScene(){
     // back wall
     list[pointer++] = new flip_normals(new xy_plane(0, 555, 0, 555, 555, white));
 
-    return new hitable_list(list,pointer);
+    return new Scene(list,pointer);
 }
 
 #endif

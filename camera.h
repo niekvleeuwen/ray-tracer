@@ -11,6 +11,7 @@ class Camera {
         Vec vertical;
 
         // set up camera
+        Camera(){}
         Camera(Vec cameraPosition, Vec CameraLookTo, Vec verticalUp, double verticalFOV, double aspect);
         Ray get_ray(double u, double v);
 };

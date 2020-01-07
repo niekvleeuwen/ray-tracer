@@ -18,7 +18,7 @@ Cube::Cube(const Vec& _center, double _size, material *ptr) {
     list[3] = new flip_normals(new xz_plane(xMin, xPlus, zMin, zPlus, yMin, ptr));
     list[4] = new yz_plane(yMin, yPlus, zMin, zPlus, xPlus, ptr);
     list[5] = new flip_normals(new yz_plane(yMin, yPlus, zMin, zPlus, xMin, ptr));
-    list_ptr = new hitable_list(list,6);
+    list_ptr = new Scene(list,6);
 }
 
 bool Cube::hit(const Ray& r, double t0, double t1, hit_record& rec) const {

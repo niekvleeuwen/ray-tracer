@@ -2,26 +2,11 @@
 #include <fstream>
 #include "sphere.h"
 #include "camera.cpp"
-#include "hitable_list.h"
+#include "scene.h"
 #include "material.h"
 #include "random.h"
 #include "cube.cpp"
 #include "scene_reader.h"
-
-Vec color(const Ray& r, BasicObject *world, int depth) {
-    hit_record rec;
-    if (world->hit(r, 0.001, MAXFLOAT, rec)) {
-        Ray scattered;
-        Vec attenuation;
-        Vec emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
-        if (depth < 50 && rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-             return emitted + attenuation*color(scattered, world, depth+1);
-        else
-            return emitted;
-    }
-    else
-        return Vec(0,0,0);
-}
 
 int main() {
     int width = 500; //in pixels
@@ -30,7 +15,7 @@ int main() {
 
     SceneReader *r = new SceneReader();
 
-    hitable_list *world = r->getScene();
+    Scene *world = r->getScene();
 
     std::ofstream img;
     img.open("image.ppm");
@@ -52,7 +37,7 @@ int main() {
                 double u = double(j + random_double()) / double(width);
                 double v = double(i + random_double()) / double(height);
                 Ray r = cam.get_ray(u, v);
-                col = col + color(r, world, 0);
+                col = col + world->color(r, 0);
             }
             // Average the colors of the Rays
             col = col / double(sampelsPerPixel);
