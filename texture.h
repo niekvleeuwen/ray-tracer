@@ -20,11 +20,11 @@ class constant_texture : public texture {
 
 class checker_texture : public texture {
     public:
-        texture *odd;
-        texture *even;
-
         checker_texture() { }
-        checker_texture(texture *t0, texture *t1): even(t0), odd(t1) { }
+        checker_texture(texture *t0, texture *t1){
+            even = t0;
+            odd = t1;
+        }
         virtual Vec value(float u, float v, const Vec& p) const {
             float sines = sin(10*p.x)*sin(10*p.y)*sin(10*p.z);
             if (sines < 0)
@@ -32,6 +32,10 @@ class checker_texture : public texture {
             else
                 return even->value(u, v, p);
         }
+    private:
+        texture *odd;
+        texture *even;
+
 };
 
 #endif
