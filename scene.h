@@ -3,13 +3,14 @@
 
 #include "basic_object.h"
 #include "material.h"
+#include "camera.h"
 
 class Scene: public BasicObject  {
     public:
         Scene() {}
         Scene(BasicObject **_list, int _list_size, Camera cam);
-        Vec color(const Ray& r, int depth);
-        Vec trace(double u, double v);
+        Vec trace(const Ray& r, int depth);
+        Vec getColor(double u, double v);
         virtual bool hit(const Ray& r, double tmin, double tmax, hit_record& rec) const;
     private:
         Camera cam;
@@ -23,19 +24,19 @@ Scene::Scene(BasicObject **_list, int _list_size, Camera _cam){
     list_size = _list_size;
 }
 
-Vec Scene::trace(double u, double v){
+Vec Scene::getColor(double u, double v){
     Ray r = cam.get_ray(u, v);
-    return this->color(r, 0);
+    return this->trace(r, 0);
 }
 
-Vec Scene::color(const Ray& r, int depth) {
+Vec Scene::trace(const Ray& r, int depth) {
     hit_record rec;
     if (this->hit(r, 0.001, MAXFLOAT, rec)) {
         Ray scattered;
         Vec attenuation;
         Vec emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
         if (depth < 25 && rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-             return emitted + attenuation*color(scattered, depth+1);
+             return emitted + attenuation*trace(scattered, depth+1);
         else
             return emitted;
     }else{

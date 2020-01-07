@@ -1,7 +1,7 @@
 #include "camera.h"
 
 // setup camera
-Camera::Camera(Vec cameraPosition, Vec CameraLookTo, Vec verticalUp, double verticalFOV, double aspect) {
+Camera::Camera(Vec cameraPosition, Vec CameraLookTo, double verticalFOV, double aspect) {
     // vfov is top to bottom in degrees
     Vec u, v, w; //defined in the figure 11-3
     float theta = verticalFOV*M_PI/180;
@@ -9,7 +9,7 @@ Camera::Camera(Vec cameraPosition, Vec CameraLookTo, Vec verticalUp, double vert
     float half_width = aspect * half_height;
     origin = cameraPosition;
     w = unit_vector(cameraPosition - CameraLookTo);
-    u = unit_vector(cross(verticalUp, w));
+    u = unit_vector(cross(Vec(0,1,0), w));
     v = cross(w, u);
     lower_left_corner = origin - half_width*u - half_height*v - w;
     horizontal = 2*half_width*u;

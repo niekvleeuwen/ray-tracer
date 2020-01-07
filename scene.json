@@ -31,6 +31,19 @@
          "size":25,
          "material":"diffuse"
          }
-     ]
+     ],
+     "camera":{
+        "fov":40,
+        "lookFromPoint":{
+            "x":278,
+            "y":278,
+            "z":-800
+         },
+        "lookToPoint":{
+            "x":278,
+            "y":278,
+            "z":0
+         }
+     }
  }
  

@@ -5,13 +5,15 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include "cube.cpp"
+#include "sphere.cpp"
+#include "camera.cpp"
 using json = nlohmann::json;
 
 class SceneReader{
     public:
         SceneReader(int _widht, int _height);
         int parseJson();
-        bool convertJSONtoScene();
         Scene *getScene();
     private:
         json scene;
@@ -23,10 +25,6 @@ class SceneReader{
 SceneReader::SceneReader(int _widht, int _height){
     width = _widht;
     height = _height;
-    int size = this->parseJson();
-    // give the array a size based on the number of objects in the scene
-    list = new BasicObject*[size + 7];
-    this->convertJSONtoScene();
 }
 
 int SceneReader::parseJson(){
@@ -42,11 +40,16 @@ int SceneReader::parseJson(){
     return scene.size();
 }
 
-bool SceneReader::convertJSONtoScene(){
-    // read a file and parse to JSON
-    std::cout << "Parsing json.." <<std::endl;
-    std::ifstream ifs("scene.json");
-    scene = json::parse(ifs);
+Scene *SceneReader::getScene(){
+    this->parseJson();
+    // give the array a size based on the number of objects in the scene
+    list = new BasicObject*[scene.size() + 7];
+
+    // define constant materials with different colors
+    material *pink = new Diffuse(new constant_texture(Vec(0.75, 0.25, 0.25)));
+    material *white = new Diffuse(new constant_texture(Vec(0.73, 0.73, 0.73)));
+    material *blue = new Diffuse(new constant_texture(Vec(0.25, 0.25, 0.75)));
+    material *light = new Light(new constant_texture(Vec(7, 7, 7)));
 
     // search for sphere key in the JSON
     try {
@@ -55,9 +58,9 @@ bool SceneReader::convertJSONtoScene(){
         for (auto&& val: array) {
             std::string material = val.at("material");
             if(material == "diffuse"){
-                list[pointer++] = new sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new diffuse(Vec(0.7,0.3,0.3)));
+                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), blue);
             }else if(material == "metal"){
-                list[pointer++] = new sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new metal(Vec(0.7, 0.6, 0.5), 0));
+                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Metal(Vec(0.7, 0.6, 0.5), 0));
             }else{
                 std::cout << material << " is not supported as a material." << std::endl;
             }
@@ -72,9 +75,9 @@ bool SceneReader::convertJSONtoScene(){
         for (auto&& val: array) {
             std::string material = val.at("material");
             if(material == "diffuse"){
-                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new diffuse(Vec(0.7,0.3,0.3)));
+                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), pink);
             }else if(material == "metal"){
-                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new metal(Vec(0.7, 0.6, 0.5), 0));
+                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Metal(Vec(0.7, 0.6, 0.5), 0));
             }else{
                 std::cout << material << " is not supported as a material." << std::endl;
             }
@@ -82,14 +85,16 @@ bool SceneReader::convertJSONtoScene(){
     } catch(std::exception&) {
         std::cout << "No cubes found" << std::endl;
     }
-    return true;
-}
 
-Scene *SceneReader::getScene(){
-    material *pink = new lambertian(new constant_texture(Vec(0.75, 0.25, 0.25)));
-    material *white = new lambertian(new constant_texture(Vec(0.73, 0.73, 0.73)));
-    material *blue = new lambertian(new constant_texture(Vec(0.25, 0.25, 0.75)));
-    material *light = new diffuse_light(new constant_texture(Vec(7, 7, 7)));
+    // init the camera object from the JSON object 
+    auto& array = scene.at("camera");
+    int fieldOfView = array.at("fov");
+    std::cout << fieldOfView;
+    auto&& lookFromPoint = array.at("lookFromPoint");
+    auto&& lookToPoint = array.at("lookToPoint");
+    Vec cameraPosition(lookFromPoint.at("x"), lookFromPoint.at("y"), lookFromPoint.at("z"));
+    Vec cameraLookTo(lookToPoint.at("x"), lookToPoint.at("y"), lookToPoint.at("z"));
+    Camera cam(cameraPosition, cameraLookTo, 37, double(width)/double(height));
 
     // ceiling
     list[pointer++] = new xz_plane(113, 443, 127, 432, 554, light);
@@ -107,12 +112,6 @@ Scene *SceneReader::getScene(){
 
     // back wall
     list[pointer++] = new flip_normals(new xy_plane(0, 555, 0, 555, 555, white));
-
-    Vec cameraPostion(278, 278, -800);
-    Vec cameraLookTo(278,278,0);
-
-    Camera cam(cameraPostion, cameraLookTo, Vec(0,1,0), 37, float(width)/float(height));
-
     return new Scene(list,pointer, cam);
 }
 
