@@ -4,28 +4,33 @@
           "x":400,
           "y":100,
           "z":300,
-          "radius":100
+          "radius":100,
+          "material":"metal"
        },
        {
           "x":200,
-          "y":100,
-          "z":100,
-          "radius":100
+          "y":50,
+          "z":300,
+          "radius":50,
+          "material":"diffuse"
        }
     ],
     "cube":[
         {
-           "x":1,
-           "y":2,
-           "z":-3,
-           "radius":2
+           "x":100,
+           "y":50,
+           "z":100,
+           "size":50,
+           "material":"diffuse"
+
         },
         {
-           "x":1,
-           "y":2,
-           "z":-3,
-           "radius":2
-        }
+         "x":400,
+         "y":25,
+         "z":100,
+         "size":25,
+         "material":"diffuse"
+         }
      ]
  }
  

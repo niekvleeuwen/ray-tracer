@@ -27,10 +27,9 @@ Vec color(const Ray& r, BasicObject *world, int depth) {
 int main() {
     int width = 500; //in pixels
     int height = 500; //in pixels
-    int sampelsPerPixel = 100; //number of samples per pixel
+    int sampelsPerPixel = 10; //number of samples per pixel
 
     SceneReader *r = new SceneReader();
-    r->parseJson();
     //return(0);
 
     hitable_list *world = r->getScene();
