@@ -7,12 +7,26 @@
 class Scene: public BasicObject  {
     public:
         Scene() {}
-        Scene(BasicObject **l, int n) { list = l; list_size = n; }
+        Scene(BasicObject **_list, int _list_size, Camera cam);
         Vec color(const Ray& r, int depth);
+        Vec trace(double u, double v);
         virtual bool hit(const Ray& r, double tmin, double tmax, hit_record& rec) const;
+    private:
+        Camera cam;
         BasicObject **list;
         int list_size;
 };
+
+Scene::Scene(BasicObject **_list, int _list_size, Camera _cam){
+    cam = _cam;
+    list = _list; 
+    list_size = _list_size;
+}
+
+Vec Scene::trace(double u, double v){
+    Ray r = cam.get_ray(u, v);
+    return this->color(r, 0);
+}
 
 Vec Scene::color(const Ray& r, int depth) {
     hit_record rec;

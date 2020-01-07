@@ -9,7 +9,7 @@ using json = nlohmann::json;
 
 class SceneReader{
     public:
-        SceneReader();
+        SceneReader(int _widht, int _height);
         int parseJson();
         bool convertJSONtoScene();
         Scene *getScene();
@@ -17,9 +17,12 @@ class SceneReader{
         json scene;
         BasicObject **list;
         int pointer = 0;
+        int width, height;
 };
 
-SceneReader::SceneReader(){
+SceneReader::SceneReader(int _widht, int _height){
+    width = _widht;
+    height = _height;
     int size = this->parseJson();
     // give the array a size based on the number of objects in the scene
     list = new BasicObject*[size + 7];
@@ -105,7 +108,12 @@ Scene *SceneReader::getScene(){
     // back wall
     list[pointer++] = new flip_normals(new xy_plane(0, 555, 0, 555, 555, white));
 
-    return new Scene(list,pointer);
+    Vec cameraPostion(278, 278, -800);
+    Vec cameraLookTo(278,278,0);
+
+    Camera cam(cameraPostion, cameraLookTo, Vec(0,1,0), 37, float(width)/float(height));
+
+    return new Scene(list,pointer, cam);
 }
 
 #endif
