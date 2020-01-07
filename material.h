@@ -30,29 +30,12 @@ class material  {
         }
 };
 
-
-class diffuse : public material {
+class Diffuse : public material {
     public:
-        diffuse(const Vec& a){
+        Diffuse(texture *a){
             albedo = a;
         }
-        virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const  {
-             Vec target = rec.p + rec.normal + random_in_unit_sphere();
-             scattered = Ray(rec.p, target-rec.p);
-             attenuation = albedo;
-             return true;
-        }
-    private:
-        Vec albedo;
-};
-
-class lambertian : public material {
-    public:
-        lambertian(texture *a){
-            albedo = a;
-        }
-        virtual bool scatter(const Ray& r_in, const hit_record& rec,
-                             Vec& attenuation, Ray& scattered) const {
+        virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const {
             Vec target = rec.p + rec.normal + random_in_unit_sphere();
             scattered = Ray(rec.p, target - rec.p);
             attenuation = albedo->value(0, 0, rec.p);
@@ -62,9 +45,9 @@ class lambertian : public material {
         texture *albedo;
 };
 
-class diffuse_light : public material {
+class Light : public material {
     public:
-        diffuse_light(texture *a){
+        Light(texture *a){
             emit = a;
         }
         virtual bool scatter(const Ray& r_in, const hit_record& rec,
@@ -76,9 +59,9 @@ class diffuse_light : public material {
         texture *emit;
 };
 
-class metal : public material {
+class Metal : public material {
     public:
-        metal(const Vec& a, float f){
+        Metal(const Vec& a, float f){
             albedo = a;
             if (f < 1){
                 fuzz = f; 
