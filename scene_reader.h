@@ -30,7 +30,12 @@ int SceneReader::parseJson(){
     // read a file and parse to JSON
     std::cout << "Reading file.." <<std::endl;
     std::ifstream ifs("scene.json");
-    scene = json::parse(ifs);
+    try{
+        scene = json::parse(ifs);
+    }catch(std::exception&) {
+        std::cout << "No file found or the file is not JSON formatted" << std::endl;
+        exit(0);
+    }
     return scene.size();
 }
 
@@ -84,21 +89,21 @@ hitable_list *SceneReader::getScene(){
     material *light = new diffuse_light(new constant_texture(Vec(7, 7, 7)));
 
     // ceiling
-    list[pointer++] = new xz_rect(113, 443, 127, 432, 554, light);
-    list[pointer++] = new flip_normals(new xz_rect(0, 555, 0, 555, 555, white));
+    list[pointer++] = new xz_plane(113, 443, 127, 432, 554, light);
+    list[pointer++] = new flip_normals(new xz_plane(0, 555, 0, 555, 555, white));
     
     // left wall
-    list[pointer++] = new flip_normals(new yz_rect(0, 555, 0, 555, 555, pink));
+    list[pointer++] = new flip_normals(new yz_plane(0, 555, 0, 555, 555, pink));
 
     // right wall
-    list[pointer++] = new yz_rect(0, 555, 0, 555, 0, blue);
-    // list[pointer++] = new yz_rect(100, 455, 100, 455, 0, light);
+    list[pointer++] = new yz_plane(0, 555, 0, 555, 0, blue);
+    // list[pointer++] = new yz_plane(100, 455, 100, 455, 0, light);
 
     // floor
-    list[pointer++] = new xz_rect(0, 555, 0, 555, 0, white);
+    list[pointer++] = new xz_plane(0, 555, 0, 555, 0, white);
 
     // back wall
-    list[pointer++] = new flip_normals(new xy_rect(0, 555, 0, 555, 555, white));
+    list[pointer++] = new flip_normals(new xy_plane(0, 555, 0, 555, 555, white));
 
     return new hitable_list(list,pointer);
 }
