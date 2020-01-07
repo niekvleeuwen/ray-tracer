@@ -5,7 +5,6 @@
 #include "hitable_list.h"
 #include "material.h"
 #include "random.h"
-#include "rect.h"
 #include "cube.cpp"
 #include "scene_reader.h"
 
@@ -30,7 +29,6 @@ int main() {
     int sampelsPerPixel = 10; //number of samples per pixel
 
     SceneReader *r = new SceneReader();
-    //return(0);
 
     hitable_list *world = r->getScene();
 
