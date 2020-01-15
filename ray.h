@@ -24,7 +24,7 @@ class Ray
         }
 
         // Returns the vector at point 
-        Vec point(double t) const { 
+        Vec getPoint(double t) const { 
             return origin + direction*t; 
         }
 };

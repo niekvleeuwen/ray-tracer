@@ -15,7 +15,7 @@ bool Sphere::hit(const Ray& ray, double t_min, double t_max, hit_record& rec) co
         dot((A + t * B - C), (A + t * B - C)) = r^2
         t^2 * dot(B,B) + 2t * dot(B, A - C) + dot(A - C, A - C) - R^2 = 0
     */
-    Vec origin_minus_center = ray.origin - center;
+    Vec origin_minus_center = ray.getOrigin() - center;
     double a = dot(ray.getDirection(), ray.getDirection());
     double b = dot(origin_minus_center, ray.getDirection());
     double c = dot(origin_minus_center, origin_minus_center) - radius*radius;
@@ -24,7 +24,7 @@ bool Sphere::hit(const Ray& ray, double t_min, double t_max, hit_record& rec) co
         double d = (-b - sqrt(discriminant))/a;
         if (d < t_max && d > t_min) {
             rec.t = d;
-            rec.p = ray.point(rec.t);
+            rec.p = ray.getPoint(rec.t);
             rec.normal = (rec.p - center) / radius;
             rec.mat_ptr = mat;
             return true;
@@ -32,7 +32,7 @@ bool Sphere::hit(const Ray& ray, double t_min, double t_max, hit_record& rec) co
         d = (-b + sqrt(discriminant)) / a;
         if (d < t_max && d > t_min) {
             rec.t = d;
-            rec.p = ray.point(rec.t);
+            rec.p = ray.getPoint(rec.t);
             rec.normal = (rec.p - center) / radius;
             rec.mat_ptr = mat;
             return true;
