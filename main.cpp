@@ -1,5 +1,3 @@
-#include <iostream>
-#include <fstream>
 #include "renderer.cpp"
 
 int main() {
@@ -10,5 +8,5 @@ int main() {
 
     Renderer render(width, height, sampelsPerPixel, filePath);
     render.render();
-    std::cout << "Rendering done." << std::endl; 
+    std::cout << std::endl << "Rendering done!" << std::endl; 
 }

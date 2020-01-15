@@ -54,8 +54,8 @@ void Renderer::updateProgressBar(int rowsDone){
     // To get to a percentage first subtract rowsDone from the height, because rowsDone is descending, 
     float percentage = ((float)(height - rowsDone) / height) * 100;
     std::cout << "[";
-    for(int i=0; i < 50; ++i){
-        if(i < (percentage / 2)){
+    for(int i = 0; i < 50; i++){
+        if(i < (percentage / 2)){ // percentage needs to be divided by 2 because the percentage bar is 50 width
             std::cout << "#";
         }else{
             std::cout << " ";

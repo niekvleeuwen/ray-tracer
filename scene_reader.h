@@ -89,12 +89,11 @@ Scene *SceneReader::getScene(){
     // init the camera object from the JSON object 
     auto& array = scene.at("camera");
     int fieldOfView = array.at("fov");
-    std::cout << fieldOfView;
     auto&& lookFromPoint = array.at("lookFromPoint");
     auto&& lookToPoint = array.at("lookToPoint");
     Vec cameraPosition(lookFromPoint.at("x"), lookFromPoint.at("y"), lookFromPoint.at("z"));
     Vec cameraLookTo(lookToPoint.at("x"), lookToPoint.at("y"), lookToPoint.at("z"));
-    Camera cam(cameraPosition, cameraLookTo, 37, double(width)/double(height));
+    Camera cam(cameraPosition, cameraLookTo, fieldOfView, double(width)/double(height));
 
     // ceiling
     list[pointer++] = new xz_plane(113, 443, 127, 432, 554, light);
