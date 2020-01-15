@@ -3,7 +3,6 @@
 
 #include "ray.h"
 #include "basic_object.h"
-#include "random.h"
 #include "texture.h"
 
 struct hit_record;
@@ -12,15 +11,17 @@ Vec reflect(const Vec& v, const Vec& n) {
      return v - 2*dot(v,n)*n;
 }
 
+double randomDouble(){
+    return rand() / (RAND_MAX + 1.0);
+}
 
 Vec random_in_unit_sphere() {
     Vec p;
     do {
-        p = 2.0*Vec(random_double(),random_double(),random_double()) - Vec(1,1,1);
+        p = 2.0*Vec(randomDouble(),randomDouble(),randomDouble()) - Vec(1,1,1);
     } while (p.squared_length() >= 1.0);
     return p;
 }
-
 
 class material  {
     public:

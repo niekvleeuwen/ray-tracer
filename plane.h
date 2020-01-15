@@ -66,7 +66,7 @@ bool xy_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
     rec.v = (y-y0)/(y1-y0); 
     rec.t = t;
     rec.mat_ptr = mat;
-    rec.p = r.point(t);
+    rec.p = r.getPoint(t);
     rec.normal = Vec(0, 0, 1);
     return true;
 }
@@ -83,7 +83,7 @@ bool xz_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
     rec.v = (z-z0)/(z1-z0); 
     rec.t = t;
     rec.mat_ptr = mat;
-    rec.p = r.point(t);
+    rec.p = r.getPoint(t);
     rec.normal = Vec(0, 1, 0);
     return true;
 }
@@ -100,7 +100,7 @@ bool yz_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
     rec.v = (z-z0)/(z1-z0); 
     rec.t = t;
     rec.mat_ptr = mat;
-    rec.p = r.point(t);
+    rec.p = r.getPoint(t);
     rec.normal = Vec(1, 0, 0);
     return true;
 }
