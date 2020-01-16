@@ -1,6 +1,6 @@
 #include "cube.h"
 
-Cube::Cube(const Vec& _center, double _size, material *ptr) {
+Cube::Cube(const Vec& _center, double _size, Material *ptr) {
     center = _center;
     size = _size;
     BasicObject **list = new BasicObject*[6];

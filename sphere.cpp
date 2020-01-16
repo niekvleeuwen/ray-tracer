@@ -1,6 +1,6 @@
 #include "sphere.h"
 
-Sphere::Sphere(Vec _center, double _radius, material *_mat){
+Sphere::Sphere(Vec _center, double _radius, Material *_mat){
     center = _center;
     radius = _radius;
     mat = _mat;

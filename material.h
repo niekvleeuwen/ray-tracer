@@ -6,7 +6,7 @@
 
 struct objectData;
 
-class material  {
+class Material  {
     public:
         virtual bool scatter(const Ray& r_in, const objectData& rec, Vec& attenuation, Ray& scattered) const = 0;
         virtual Vec emitted(float u, float v, const Vec& p) const {
@@ -14,7 +14,7 @@ class material  {
         }
 };
 
-class Diffuse : public material {
+class Diffuse : public Material {
     public:
         Diffuse(Vec _color){
             color = _color;
@@ -46,7 +46,7 @@ bool Diffuse::scatter(const Ray& r_in, const objectData& rec, Vec& attenuation, 
     return true;
 }
 
-class Light : public material {
+class Light : public Material {
     public:
         Light(Vec _emitColor){
             emitColor = _emitColor;
@@ -60,7 +60,7 @@ class Light : public material {
         Vec emitColor;
 };
 
-class Reflective : public material {
+class Reflective : public Material {
     public:
         Reflective(const Vec& a){
             albedo = a;

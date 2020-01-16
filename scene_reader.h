@@ -50,10 +50,10 @@ Scene *SceneReader::getScene(){
     list = new BasicObject*[scene.size() + 7];
 
     // define constant materials with different colors
-    material *pink = new Diffuse(Vec(0.75, 0.25, 0.25));
-    material *white = new Diffuse(Vec(0.73, 0.73, 0.73));
-    material *blue = new Diffuse(Vec(0.25, 0.25, 0.75));
-    material *light = new Light(Vec(7, 7, 7));
+    Material *pink = new Diffuse(Vec(0.75, 0.25, 0.25));
+    Material *white = new Diffuse(Vec(0.73, 0.73, 0.73));
+    Material *blue = new Diffuse(Vec(0.25, 0.25, 0.75));
+    Material *light = new Light(Vec(7, 7, 7));
 
     // search for sphere key in the JSON
     try {

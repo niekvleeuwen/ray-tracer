@@ -5,7 +5,7 @@
 
 class Plane: public BasicObject  {
     public:
-        Plane(double _a, double _b, double _c, double _d, double _k, material *_mat){
+        Plane(double _a, double _b, double _c, double _d, double _k, Material *_mat){
             a = _a;
             b = _b;
             c = _c;
@@ -15,7 +15,7 @@ class Plane: public BasicObject  {
         }
         virtual bool hit(const Ray& r, double t0, double t1, objectData& rec) const;
     protected:
-        material *mat;
+        Material *mat;
         double a,b,c,d,k;
 };
 

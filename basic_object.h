@@ -3,7 +3,7 @@
 
 #include "ray.h"
 
-class material; //Alert the compiler that the pointer currentMaterial is to a class
+class Material; //Alert the compiler that the pointer currentMaterial is to a class
 
 struct objectData{
     double t;  
@@ -11,7 +11,7 @@ struct objectData{
     double v;
     Vec p;
     Vec normal;
-    material *currentMaterial;
+    Material *currentMaterial;
 };
 
 class BasicObject {
