@@ -5,7 +5,7 @@
          "y":10,
          "z":30,
          "radius":10,
-         "material":"Reflective"
+         "material":"reflective"
       },
       {
          "x":30,

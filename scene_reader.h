@@ -12,7 +12,7 @@ using json = nlohmann::json;
 
 class SceneReader{
     public:
-        SceneReader(int _widht, int _height);
+        SceneReader(int _widht, int _height, std::string _scenePath);
         int parseJson();
         Scene *getScene();
     private:
@@ -20,17 +20,20 @@ class SceneReader{
         BasicObject **list;
         int pointer = 0;
         int width, height;
+        std::string scenePath;
 };
 
-SceneReader::SceneReader(int _widht, int _height){
+SceneReader::SceneReader(int _widht, int _height, std::string _scenePath){
     width = _widht;
     height = _height;
+    scenePath = _scenePath;
 }
 
+// This function parses the in the constructor given JSON file
 int SceneReader::parseJson(){
     // read a file and parse to JSON
     std::cout << "Reading file..." <<std::endl;
-    std::ifstream ifs("scene.json");
+    std::ifstream ifs(scenePath);
     try{
         scene = json::parse(ifs);
     }catch(std::exception&) {
@@ -40,6 +43,7 @@ int SceneReader::parseJson(){
     return scene.size();
 }
 
+// This function converts the JSON object in a scene and returns it;
 Scene *SceneReader::getScene(){
     this->parseJson();
     // give the array a size based on the number of objects in the scene
