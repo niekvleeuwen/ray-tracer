@@ -24,8 +24,8 @@ Scene::Scene(BasicObject **_list, int _listSize, Camera _cam){
     listSize = _listSize;
 }
 
-Vec Scene::getColor(double u, double v){
-    Ray r = cam.getRay(u, v);
+Vec Scene::getColor(double sampleX, double sampleY){
+    Ray r = cam.getRay(sampleX, sampleY);
     return this->trace(r, 0);
 }
 

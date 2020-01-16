@@ -7,6 +7,7 @@ Renderer::Renderer(int _width, int _height, int _sampelsPerPixel, std::string _f
     height = _height;
     sampelsPerPixel = _sampelsPerPixel;
     filePath = _filePath;
+    initFile();
 }
 
 // This function renders retrieves a scene from the scene reader and renders the scene to an image
@@ -18,9 +19,9 @@ bool Renderer::renderScene(Scene* scene){
             Vec color(0, 0, 0);
             // For a given pixel take several samples with the random function within that pixel and send rays through each of the samples
             for (int s = 0; s < sampelsPerPixel; s++) {
-                double u = double(j + rand() / (RAND_MAX + 1.0)) / double(width);
-                double v = double(i + rand() / (RAND_MAX + 1.0)) / double(height);
-                color = color + scene->getColor(u,v);
+                double sampleX = double(j + rand() / (RAND_MAX + 1.0)) / double(width);
+                double sampleY = double(i + rand() / (RAND_MAX + 1.0)) / double(height);
+                color = color + scene->getColor(sampleX,sampleY);
             }
             // Average the colors
             color = color / double(sampelsPerPixel);

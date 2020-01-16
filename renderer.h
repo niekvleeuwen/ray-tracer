@@ -2,6 +2,7 @@
 #define RENDERERH
 
 #include "basic_object.h"
+#include <fstream>
 
 class Renderer {
     public:
