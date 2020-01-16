@@ -7,7 +7,7 @@
 class Cube: public BasicObject  {
     public:
         Cube(const Vec& center, double size, material *ptr);
-        virtual bool hit(const Ray& r, double t0, double t1, hit_record& rec) const;
+        virtual bool hit(const Ray& r, double t0, double t1, objectData& rec) const;
     private:
         Vec center;
         double size;

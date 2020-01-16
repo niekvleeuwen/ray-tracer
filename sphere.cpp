@@ -7,7 +7,7 @@ Sphere::Sphere(Vec _center, double _radius, material *_mat){
 }
 
 // Calculate the distance between a sphere and a ray between given t min and t max
-bool Sphere::hit(const Ray& ray, double t_min, double t_max, hit_record& rec) const {
+bool Sphere::hit(const Ray& ray, double t_min, double t_max, objectData& rec) const {
      /*
         Calculate the discrimant of the following equation using the ABC formula
         dot((P-C),(P-C)) = r^2

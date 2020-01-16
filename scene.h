@@ -8,20 +8,20 @@
 class Scene: public BasicObject  {
     public:
         Scene() {}
-        Scene(BasicObject **_list, int _list_size, Camera cam);
+        Scene(BasicObject **_list, int _listSize, Camera cam);
         Vec trace(const Ray& r, int depth);
         Vec getColor(double u, double v);
-        virtual bool hit(const Ray& r, double tmin, double tmax, hit_record& rec) const;
+        virtual bool hit(const Ray& r, double tmin, double tmax, objectData& rec) const;
     private:
         Camera cam;
         BasicObject **list;
-        int list_size;
+        int listSize;
 };
 
-Scene::Scene(BasicObject **_list, int _list_size, Camera _cam){
+Scene::Scene(BasicObject **_list, int _listSize, Camera _cam){
     cam = _cam;
     list = _list; 
-    list_size = _list_size;
+    listSize = _listSize;
 }
 
 Vec Scene::getColor(double u, double v){
@@ -30,7 +30,8 @@ Vec Scene::getColor(double u, double v){
 }
 
 Vec Scene::trace(const Ray& r, int depth) {
-    hit_record rec;
+    objectData rec;
+    // Check if the ray hits something
     if (this->hit(r, 0.001, MAXFLOAT, rec)) {
         Ray scattered;
         Vec attenuation;
@@ -40,19 +41,20 @@ Vec Scene::trace(const Ray& r, int depth) {
         else
             return emitted;
     }else{
+        // Return black if the ray hits nothing
         return Vec(0,0,0);
     }
 }
 
-bool Scene::hit(const Ray& r, double t_min, double t_max, hit_record& rec) const {
-    hit_record temp_rec;
+bool Scene::hit(const Ray& r, double t_min, double t_max, objectData& rec) const {
+    objectData tmp;
     bool hit_anything = false;
-    double closest_so_far = t_max;
-    for (int i = 0; i < list_size; i++) {
-        if (list[i]->hit(r, t_min, closest_so_far, temp_rec)) {
+    double currentClosest = t_max;
+    for (int i = 0; i < listSize; i++) {
+        if (list[i]->hit(r, t_min, currentClosest, tmp)){
             hit_anything = true;
-            closest_so_far = temp_rec.t;
-            rec = temp_rec;
+            currentClosest = tmp.t;
+            rec = tmp;
         }
     }
     return hit_anything;

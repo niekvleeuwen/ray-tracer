@@ -29,7 +29,7 @@ SceneReader::SceneReader(int _widht, int _height){
 
 int SceneReader::parseJson(){
     // read a file and parse to JSON
-    std::cout << "Reading file.." <<std::endl;
+    std::cout << "Reading file..." <<std::endl;
     std::ifstream ifs("scene.json");
     try{
         scene = json::parse(ifs);
@@ -96,21 +96,21 @@ Scene *SceneReader::getScene(){
     Camera cam(cameraPosition, cameraLookTo, fieldOfView, double(width)/double(height));
 
     // ceiling
-    list[pointer++] = new xz_plane(10, 40, 10, 40, 49, light);
-    list[pointer++] = new flip_normals(new xz_plane(0, 50, 0, 50, 50, white));
+    list[pointer++] = new PlaneXZ(10, 40, 10, 40, 49, light);
+    list[pointer++] = new flip_normals(new PlaneXZ(0, 50, 0, 50, 50, white));
     
     // left wall
-    list[pointer++] = new flip_normals(new yz_plane(0, 50, 0, 50, 50, pink));
+    list[pointer++] = new flip_normals(new PlaneYZ(0, 50, 0, 50, 50, pink));
 
     // right wall
-    list[pointer++] = new yz_plane(0, 50, 0, 50, 0, blue);
-    // list[pointer++] = new yz_plane(100, 455, 100, 455, 0, light);
+    list[pointer++] = new PlaneYZ(0, 50, 0, 50, 0, blue);
+    // list[pointer++] = new PlaneYZ(100, 455, 100, 455, 0, light);
 
     // floor
-    list[pointer++] = new xz_plane(0, 50, 0, 50, 0, white);
+    list[pointer++] = new PlaneXZ(0, 50, 0, 50, 0, white);
 
     // back wall
-    list[pointer++] = new flip_normals(new xy_plane(0, 50, 0, 50, 50, white));
+    list[pointer++] = new flip_normals(new PlaneXY(0, 50, 0, 50, 50, white));
     return new Scene(list,pointer, cam);
 }
 

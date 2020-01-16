@@ -3,25 +3,9 @@
 
 #include "basic_object.h"
 
-// class Plane: public BasicObject  {
-//     public:
-//         Plane(double _a, double _b, double _c, double _d, double _k, material *_mat){
-//             a = _a;
-//             b = _b;
-//             c = _c;
-//             d = _d;
-//             k = _k;
-//             mat = _mat;
-//         }
-//         virtual bool hit(const Ray& r, double t0, double t1, hit_record& rec) const;
-//     private:
-//         material *mat;
-//         double a,b,c,d,k;
-// };
-
-class xy_plane: public BasicObject {
+class Plane: public BasicObject  {
     public:
-        xy_plane(double _a, double _b, double _c, double _d, double _k, material *_mat){
+        Plane(double _a, double _b, double _c, double _d, double _k, material *_mat){
             a = _a;
             b = _b;
             c = _c;
@@ -29,46 +13,37 @@ class xy_plane: public BasicObject {
             k = _k;
             mat = _mat;
         }
-        virtual bool hit(const Ray& r, double t0, double t1, hit_record& rec) const;
-    private:
+        virtual bool hit(const Ray& r, double t0, double t1, objectData& rec) const;
+    protected:
         material *mat;
         double a,b,c,d,k;
 };
 
-class yz_plane: public BasicObject {
+// default hit implementation, overridden in childs
+bool Plane::hit(const Ray& r, double t0, double t1, objectData& rec) const{
+    return false; 
+}
+
+class PlaneXY: public virtual Plane {
     public:
-        yz_plane(double _a, double _b, double _c, double _d, double _k, material *_mat){
-            a = _a;
-            b = _b;
-            c = _c;
-            d = _d;
-            k = _k;
-            mat = _mat;
-        }
-        virtual bool hit(const Ray& r, double t0, double t1, hit_record& rec) const;
-    private:
-        material *mat;
-        double a,b,c,d,k;
+        using Plane::Plane;
+        virtual bool hit(const Ray& r, double t0, double t1, objectData& rec) const;
 };
 
-class xz_plane: public BasicObject {
+class PlaneYZ: public Plane {
     public:
-        xz_plane(double _a, double _b, double _c, double _d, double _k, material *_mat){
-            a = _a;
-            b = _b;
-            c = _c;
-            d = _d;
-            k = _k;
-            mat = _mat;
-        }
-        virtual bool hit(const Ray& r, double t0, double t1, hit_record& rec) const;
-    private:
-        material *mat;
-        double a,b,c,d,k;
+        using Plane::Plane;
+        virtual bool hit(const Ray& r, double t0, double t1, objectData& rec) const;
+};
+
+class PlaneXZ: public Plane {
+    public:
+        using Plane::Plane;
+        virtual bool hit(const Ray& r, double t0, double t1, objectData& rec) const;
 };
 
 
-bool xy_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
+bool PlaneXY::hit(const Ray& r, double t0, double t1, objectData& rec) const {
     double t = (k-r.getOrigin().z) / r.getDirection().z;
     if (t < t0 || t > t1)
         return false;
@@ -85,7 +60,7 @@ bool xy_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
     return true;
 }
 
-bool xz_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
+bool PlaneXZ::hit(const Ray& r, double t0, double t1, objectData& rec) const {
     double t = (k-r.getOrigin().y) / r.getDirection().y;
     if (t < t0 || t > t1)
         return false;
@@ -102,7 +77,7 @@ bool xz_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
     return true;
 }
 
-bool yz_plane::hit(const Ray& r, double t0, double t1, hit_record& rec) const {
+bool PlaneYZ::hit(const Ray& r, double t0, double t1, objectData& rec) const {
     double t = (k-r.getOrigin().x) / r.getDirection().x;
     if (t < t0 || t > t1)
         return false;

@@ -5,7 +5,7 @@
 
 class material; //Alert the compiler that the pointer currentMaterial is to a class
 
-struct hit_record{
+struct objectData{
     double t;  
     double u;
     double v;
@@ -16,7 +16,7 @@ struct hit_record{
 
 class BasicObject {
     public:
-        virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+        virtual bool hit(const Ray& r, double t_min, double t_max, objectData& rec) const = 0;
 };
 
 class flip_normals : public BasicObject {
@@ -24,7 +24,7 @@ class flip_normals : public BasicObject {
         flip_normals(BasicObject *p) : ptr(p) {}
 
         virtual bool hit(
-            const Ray& r, double t_min, double t_max, hit_record& rec) const {
+            const Ray& r, double t_min, double t_max, objectData& rec) const {
 
             if (ptr->hit(r, t_min, t_max, rec)) {
                 rec.normal -= rec.normal;

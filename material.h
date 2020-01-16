@@ -4,11 +4,11 @@
 #include "ray.h"
 #include "basic_object.h"
 
-struct hit_record;
+struct objectData;
 
 class material  {
     public:
-        virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const = 0;
+        virtual bool scatter(const Ray& r_in, const objectData& rec, Vec& attenuation, Ray& scattered) const = 0;
         virtual Vec emitted(float u, float v, const Vec& p) const {
             return Vec(0,0,0); // On default return black (for non emitting objects)
         }
@@ -21,7 +21,7 @@ class Diffuse : public material {
         }
         Vec random_in_unit_sphere() const;
         double randomDouble() const;
-        virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const;
+        virtual bool scatter(const Ray& r_in, const objectData& rec, Vec& attenuation, Ray& scattered) const;
     private:
         Vec color;
 };
@@ -38,7 +38,7 @@ double Diffuse::randomDouble() const {
     return rand() / (RAND_MAX + 1.0);
 }
 
-bool Diffuse::scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const {
+bool Diffuse::scatter(const Ray& r_in, const objectData& rec, Vec& attenuation, Ray& scattered) const {
     Vec random = random_in_unit_sphere();
     Vec target = rec.p + rec.normal + random;
     scattered = Ray(rec.p, target - rec.p);
@@ -51,7 +51,7 @@ class Light : public material {
         Light(Vec _emitColor){
             emitColor = _emitColor;
         }
-        virtual bool scatter(const Ray& r_in, const hit_record& rec,
+        virtual bool scatter(const Ray& r_in, const objectData& rec,
             Vec& attenuation, Ray& scattered) const { return false; }
         virtual Vec emitted(float u, float v, const Vec& p) const {
             return emitColor;
@@ -66,7 +66,7 @@ class Reflective : public material {
             albedo = a;
         }
         Vec reflect(const Vec& v, const Vec& n) const;
-        virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const  {
+        virtual bool scatter(const Ray& r_in, const objectData& rec, Vec& attenuation, Ray& scattered) const  {
             Vec reflected = reflect(unit_vector(r_in.getDirection()), rec.normal);
             scattered = Ray(rec.p, reflected);
             attenuation = albedo;
