@@ -6,13 +6,16 @@
 class Renderer {
     public:
         Renderer(int _width, int _height, int _sampelsPerPixel, std::string _filePath);
+        void initFile();
+        bool renderScene(Scene* _scene);
+        void writeColorToFile(Vec color);
         void updateProgressBar(int rowsDone);
-        bool render();
     private:
         int width; 
         int height;
         int sampelsPerPixel;
         std::string filePath;
+        std::ofstream img;
 };
 
 #endif

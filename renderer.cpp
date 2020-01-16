@@ -1,7 +1,6 @@
 #include "renderer.h"
 #include "scene.h"
 #include "scene_reader.h"
-#include <unistd.h>
 
 Renderer::Renderer(int _width, int _height, int _sampelsPerPixel, std::string _filePath){
     width = _width;
@@ -11,20 +10,7 @@ Renderer::Renderer(int _width, int _height, int _sampelsPerPixel, std::string _f
 }
 
 // This function renders retrieves a scene from the scene reader and renders the scene to an image
-bool Renderer::render(){
-     SceneReader *r = new SceneReader(width, height);
-
-    // Retrieve the scene from the scene reader object
-    Scene *world = r->getScene();
-
-    // Open the image
-    std::ofstream img;
-    img.open(filePath);
-
-    // P3 means this is a RGB color image in ASCII
-    // 255 is the maximum value for each color
-    img << "P3\n" << width << " " << height << "\n255\n";
-
+bool Renderer::renderScene(Scene* scene){
     std::cout << "Starting with the render..." << std::endl;
     // Loop trough every pixel
     for (int i = height; i >= 0; i--) {
@@ -34,14 +20,13 @@ bool Renderer::render(){
             for (int s = 0; s < sampelsPerPixel; s++) {
                 double u = double(j + rand() / (RAND_MAX + 1.0)) / double(width);
                 double v = double(i + rand() / (RAND_MAX + 1.0)) / double(height);
-                color = color + world->getColor(u,v);
+                color = color + scene->getColor(u,v);
             }
             // Average the colors
             color = color / double(sampelsPerPixel);
             // Raising the color to the power of 1/gamma,
             color = Vec(sqrt(color.getX()), sqrt(color.getY()), sqrt(color.getZ()));
-            // Write the colors to the file
-            img << int(255.99*color.getX()) << " " << int(255.99*color.getY()) << " " << int(255.99*color.getZ()) << "\n";
+            writeColorToFile(color);
         }
         // Display the current procentage
         updateProgressBar(i);
@@ -49,7 +34,24 @@ bool Renderer::render(){
     return true;
 }
 
-//this function takes the rowsDone, calculates a percentages and displays it on the screen
+// This function initializes the file
+void Renderer::initFile(){
+    // Open the image
+    img.open(filePath);
+
+    // P3 means this is a RGB color image in ASCII
+    // 255 is the maximum value for each color
+    img << "P3\n" << width << " " << height << "\n255\n";
+
+}
+
+// This function writes the color to the specified file
+void Renderer::writeColorToFile(Vec color){
+    // Write the colors to the file
+    img << int(255.99*color.getX()) << " " << int(255.99*color.getY()) << " " << int(255.99*color.getZ()) << "\n";  
+}
+
+// This function takes the rowsDone, calculates a percentages and displays it on the screen
 void Renderer::updateProgressBar(int rowsDone){
     // To get to a percentage first subtract rowsDone from the height, because rowsDone is descending, 
     float percentage = ((float)(height - rowsDone) / height) * 100;
