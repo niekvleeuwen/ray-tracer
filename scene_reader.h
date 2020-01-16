@@ -46,10 +46,10 @@ Scene *SceneReader::getScene(){
     list = new BasicObject*[scene.size() + 7];
 
     // define constant materials with different colors
-    material *pink = new Diffuse(new constant_texture(Vec(0.75, 0.25, 0.25)));
-    material *white = new Diffuse(new constant_texture(Vec(0.73, 0.73, 0.73)));
-    material *blue = new Diffuse(new constant_texture(Vec(0.25, 0.25, 0.75)));
-    material *light = new Light(new constant_texture(Vec(7, 7, 7)));
+    material *pink = new Diffuse(Vec(0.75, 0.25, 0.25));
+    material *white = new Diffuse(Vec(0.73, 0.73, 0.73));
+    material *blue = new Diffuse(Vec(0.25, 0.25, 0.75));
+    material *light = new Light(Vec(7, 7, 7));
 
     // search for sphere key in the JSON
     try {
@@ -59,8 +59,8 @@ Scene *SceneReader::getScene(){
             std::string material = val.at("material");
             if(material == "diffuse"){
                 list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), blue);
-            }else if(material == "metal"){
-                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Metal(Vec(0.7, 0.6, 0.5), 0));
+            }else if(material == "reflective"){
+                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Reflective(Vec(0.7, 0.6, 0.5)));
             }else{
                 std::cout << material << " is not supported as a material." << std::endl;
             }
@@ -76,8 +76,8 @@ Scene *SceneReader::getScene(){
             std::string material = val.at("material");
             if(material == "diffuse"){
                 list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), pink);
-            }else if(material == "metal"){
-                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Metal(Vec(0.7, 0.6, 0.5), 0));
+            }else if(material == "reflective"){
+                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Reflective(Vec(0.7, 0.6, 0.5)));
             }else{
                 std::cout << material << " is not supported as a material." << std::endl;
             }
@@ -96,21 +96,21 @@ Scene *SceneReader::getScene(){
     Camera cam(cameraPosition, cameraLookTo, fieldOfView, double(width)/double(height));
 
     // ceiling
-    list[pointer++] = new xz_plane(113, 443, 127, 432, 554, light);
-    list[pointer++] = new flip_normals(new xz_plane(0, 555, 0, 555, 555, white));
+    list[pointer++] = new xz_plane(10, 40, 10, 40, 49, light);
+    list[pointer++] = new flip_normals(new xz_plane(0, 50, 0, 50, 50, white));
     
     // left wall
-    list[pointer++] = new flip_normals(new yz_plane(0, 555, 0, 555, 555, pink));
+    list[pointer++] = new flip_normals(new yz_plane(0, 50, 0, 50, 50, pink));
 
     // right wall
-    list[pointer++] = new yz_plane(0, 555, 0, 555, 0, blue);
+    list[pointer++] = new yz_plane(0, 50, 0, 50, 0, blue);
     // list[pointer++] = new yz_plane(100, 455, 100, 455, 0, light);
 
     // floor
-    list[pointer++] = new xz_plane(0, 555, 0, 555, 0, white);
+    list[pointer++] = new xz_plane(0, 50, 0, 50, 0, white);
 
     // back wall
-    list[pointer++] = new flip_normals(new xy_plane(0, 555, 0, 555, 555, white));
+    list[pointer++] = new flip_normals(new xy_plane(0, 50, 0, 50, 50, white));
     return new Scene(list,pointer, cam);
 }
 
