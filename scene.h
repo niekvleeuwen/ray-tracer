@@ -25,7 +25,7 @@ Scene::Scene(BasicObject **_list, int _list_size, Camera _cam){
 }
 
 Vec Scene::getColor(double u, double v){
-    Ray r = cam.get_ray(u, v);
+    Ray r = cam.getRay(u, v);
     return this->trace(r, 0);
 }
 
@@ -34,8 +34,8 @@ Vec Scene::trace(const Ray& r, int depth) {
     if (this->hit(r, 0.001, MAXFLOAT, rec)) {
         Ray scattered;
         Vec attenuation;
-        Vec emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
-        if (depth < 25 && rec.mat_ptr->scatter(r, rec, attenuation, scattered))
+        Vec emitted = rec.currentMaterial->emitted(rec.u, rec.v, rec.p);
+        if (depth < 25 && rec.currentMaterial->scatter(r, rec, attenuation, scattered))
              return emitted + attenuation*trace(scattered, depth+1);
         else
             return emitted;

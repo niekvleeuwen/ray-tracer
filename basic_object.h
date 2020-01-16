@@ -3,7 +3,7 @@
 
 #include "ray.h"
 
-class material;
+class material; //Alert the compiler that the pointer currentMaterial is to a class
 
 struct hit_record{
     double t;  
@@ -11,7 +11,7 @@ struct hit_record{
     double v;
     Vec p;
     Vec normal;
-    material *mat_ptr;
+    material *currentMaterial;
 };
 
 class BasicObject {

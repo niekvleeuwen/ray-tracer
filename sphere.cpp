@@ -26,7 +26,7 @@ bool Sphere::hit(const Ray& ray, double t_min, double t_max, hit_record& rec) co
             rec.t = d;
             rec.p = ray.getPoint(rec.t);
             rec.normal = (rec.p - center) / radius;
-            rec.mat_ptr = mat;
+            rec.currentMaterial = mat;
             return true;
         }
         d = (-b + sqrt(discriminant)) / a;
@@ -34,7 +34,7 @@ bool Sphere::hit(const Ray& ray, double t_min, double t_max, hit_record& rec) co
             rec.t = d;
             rec.p = ray.getPoint(rec.t);
             rec.normal = (rec.p - center) / radius;
-            rec.mat_ptr = mat;
+            rec.currentMaterial = mat;
             return true;
         }
     }
