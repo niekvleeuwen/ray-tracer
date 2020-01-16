@@ -6,22 +6,6 @@
 
 struct hit_record;
 
-Vec reflect(const Vec& v, const Vec& n) {
-     return v - 2*dot(v,n)*n;
-}
-
-double randomDouble(){
-    return rand() / (RAND_MAX + 1.0);
-}
-
-Vec random_in_unit_sphere() {
-    Vec p;
-    do {
-        p = 2.0*Vec(randomDouble(),randomDouble(),randomDouble()) - Vec(1,1,1);
-    } while (p.squared_length() >= 1.0);
-    return p;
-}
-
 class material  {
     public:
         virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const = 0;
@@ -35,15 +19,32 @@ class Diffuse : public material {
         Diffuse(Vec _color){
             color = _color;
         }
-        virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const {
-            Vec target = rec.p + rec.normal + random_in_unit_sphere();
-            scattered = Ray(rec.p, target - rec.p);
-            attenuation = color;
-            return true;
-        }
+        Vec random_in_unit_sphere() const;
+        double randomDouble() const;
+        virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const;
     private:
         Vec color;
 };
+
+Vec Diffuse::random_in_unit_sphere() const {
+    Vec p;
+    do {
+        p = 2.0*Vec(randomDouble(),randomDouble(),randomDouble()) - Vec(1,1,1);
+    } while (p.squared_length() >= 1.0);
+    return p;
+}
+
+double Diffuse::randomDouble() const {
+    return rand() / (RAND_MAX + 1.0);
+}
+
+bool Diffuse::scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const {
+    Vec random = random_in_unit_sphere();
+    Vec target = rec.p + rec.normal + random;
+    scattered = Ray(rec.p, target - rec.p);
+    attenuation = color;
+    return true;
+}
 
 class Light : public material {
     public:
@@ -64,6 +65,7 @@ class Reflective : public material {
         Reflective(const Vec& a){
             albedo = a;
         }
+        Vec reflect(const Vec& v, const Vec& n) const;
         virtual bool scatter(const Ray& r_in, const hit_record& rec, Vec& attenuation, Ray& scattered) const  {
             Vec reflected = reflect(unit_vector(r_in.getDirection()), rec.normal);
             scattered = Ray(rec.p, reflected);
@@ -73,5 +75,10 @@ class Reflective : public material {
     private:
         Vec albedo;
 };
+
+Vec Reflective::reflect(const Vec& v, const Vec& n) const {
+     return v - 2*dot(v,n)*n;
+}
+
 
 #endif
