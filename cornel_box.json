@@ -12,7 +12,12 @@
          "y":3,
          "z":15,
          "radius":3,
-         "material":"diffuse"
+         "material":"diffuse",
+         "color":{
+            "r":0.25,
+            "g":0.25,
+            "b":0.75
+         }
       }
    ],
    "cube":[
@@ -21,22 +26,117 @@
           "y":5,
           "z":10,
           "size":5,
-          "material":"diffuse"
-
+          "color":{
+            "r":0.75,
+            "g":0.25,
+            "b":0.25
+         }
        }
     ],
-     "camera":{
-        "fov":40,
-        "lookFromPoint":{
-            "x":25,
-            "y":25,
-            "z":-65
+    "plane":[
+        {
+           "a":10,
+           "b":40,
+           "c":10,
+           "d":40,
+           "z":49,
+           "type":"xz",
+           "material":"light",
+           "flipped":false,
+           "color":{
+              "r":7,
+              "g":7,
+              "b":7
+           }
+        },
+        {
+            "a":0,
+            "b":50,
+            "c":0,
+            "d":50,
+            "z":50,
+            "type":"xz",
+            "material":"diffuse",
+            "flipped":true,
+            "color":{
+               "r":0.75,
+               "g":0.75,
+               "b":0.75
+            }
          },
-        "lookToPoint":{
-            "x":25,
-            "y":25,
-            "z":0
+         {
+            "a":0,
+            "b":50,
+            "c":0,
+            "d":50,
+            "z":50,
+            "type":"yz",
+            "material":"diffuse",
+            "flipped":true,
+            "color":{
+               "r":0.75,
+               "g":0.25,
+               "b":0.25
+            }
+         },
+         {
+            "a":0,
+            "b":50,
+            "c":0,
+            "d":50,
+            "z":0,
+            "type":"yz",
+            "material":"diffuse",
+            "flipped":false,
+            "color":{
+               "r":0.25,
+               "g":0.25,
+               "b":0.75
+            }
+         },
+         {
+            "a":0,
+            "b":50,
+            "c":0,
+            "d":50,
+            "z":0,
+            "type":"xz",
+            "material":"diffuse",
+            "flipped":false,
+            "color":{
+               "r":0.75,
+               "g":0.75,
+               "b":0.75
+            }
+         },
+         {
+            "a":0,
+            "b":50,
+            "c":0,
+            "d":50,
+            "z":50,
+            "type":"xy",
+            "material":"diffuse",
+            "flipped":true,
+            "color":{
+               "r":0.75,
+               "g":0.75,
+               "b":0.75
+            }
          }
-     }
+     ],
+    "camera":{
+       "fov":40,
+       "lookFromPoint":{
+           "x":25,
+           "y":25,
+           "z":-65
+        },
+       "lookToPoint":{
+           "x":25,
+           "y":25,
+           "z":0
+        }
+    }
  }
  

@@ -49,11 +49,20 @@ Scene *SceneReader::getScene(){
     // give the array a size based on the number of objects in the scene
     list = new BasicObject*[scene.size() + 7];
 
-    // define constant materials with different colors
-    Material *pink = new Diffuse(Vec(0.75, 0.25, 0.25));
-    Material *white = new Diffuse(Vec(0.73, 0.73, 0.73));
-    Material *blue = new Diffuse(Vec(0.25, 0.25, 0.75));
-    Material *light = new Light(Vec(7, 7, 7));
+    // init the camera object from the JSON object 
+    Camera *cam;
+    try{
+        auto& array = scene.at("camera");
+        int fieldOfView = array.at("fov");
+        auto&& lookFromPoint = array.at("lookFromPoint");
+        auto&& lookToPoint = array.at("lookToPoint");
+        Vec cameraPosition(lookFromPoint.at("x"), lookFromPoint.at("y"), lookFromPoint.at("z"));
+        Vec cameraLookTo(lookToPoint.at("x"), lookToPoint.at("y"), lookToPoint.at("z"));
+        cam = new Camera(cameraPosition, cameraLookTo, fieldOfView, double(width)/double(height));
+    } catch(std::exception&) {
+        std::cout << "No camera found, add a camera to the Scene" << std::endl;
+        exit(1);
+    }
 
     // search for sphere key in the JSON
     try {
@@ -62,60 +71,71 @@ Scene *SceneReader::getScene(){
         for (auto&& val: array) {
             std::string material = val.at("material");
             if(material == "diffuse"){
-                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), blue);
+                auto&& color = val.at("color");
+                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Diffuse(Vec(color.at("r"), color.at("g"), color.at("b"))));
             }else if(material == "reflective"){
                 list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Reflective(Vec(0.7, 0.6, 0.5)));
             }else{
                 std::cout << material << " is not supported as a material." << std::endl;
             }
         }
-    } catch(std::exception&) {
-        std::cout << "No spheres found" << std::endl;
+    } catch(std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
     }
 
     // search for cube key in the JSON
     try {
         auto& array = scene.at("cube");
         for (auto&& val: array) {
-            std::string material = val.at("material");
-            if(material == "diffuse"){
-                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), pink);
-            }else if(material == "reflective"){
-                list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Reflective(Vec(0.7, 0.6, 0.5)));
-            }else{
-                std::cout << material << " is not supported as a material." << std::endl;
-            }
+            auto&& color = val.at("color");
+            list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Diffuse(Vec(color.at("r"), color.at("g"), color.at("b"))));
         }
-    } catch(std::exception&) {
-        std::cout << "No cubes found" << std::endl;
+    } catch(std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
     }
 
-    // init the camera object from the JSON object 
-    auto& array = scene.at("camera");
-    int fieldOfView = array.at("fov");
-    auto&& lookFromPoint = array.at("lookFromPoint");
-    auto&& lookToPoint = array.at("lookToPoint");
-    Vec cameraPosition(lookFromPoint.at("x"), lookFromPoint.at("y"), lookFromPoint.at("z"));
-    Vec cameraLookTo(lookToPoint.at("x"), lookToPoint.at("y"), lookToPoint.at("z"));
-    Camera cam(cameraPosition, cameraLookTo, fieldOfView, double(width)/double(height));
+    // search for plane key in the JSON
+    try {
+        auto& array = scene.at("plane");
+        for (auto&& val: array) {
+            std::string materialType = val.at("material");
+            auto&& color = val.at("color");
+            Material *material;
+            std::string type = val.at("type");
+            bool flipped = val.at("flipped");
 
-    // ceiling
-    list[pointer++] = new PlaneXZ(10, 40, 10, 40, 49, light);
-    list[pointer++] = new flip_normals(new PlaneXZ(0, 50, 0, 50, 50, white));
-    
-    // left wall
-    list[pointer++] = new flip_normals(new PlaneYZ(0, 50, 0, 50, 50, pink));
+            // First define the material
+            if(materialType == "diffuse"){
+                material = new Diffuse(Vec(color.at("r"), color.at("g"), color.at("b")));
+            }else if(materialType == "light"){
+                material = new Light(Vec(color.at("r"), color.at("g"), color.at("b")));
+            }
+            
+            // Check which axis the plane has to be
+            BasicObject *plane;
+            if(type == "xy"){
+                plane = new PlaneXY(val.at("a"), val.at("b"), val.at("c"), val.at("d"), val.at("z"), material);
+            }else if(type == "xz"){
+                plane = new PlaneXZ(val.at("a"), val.at("b"), val.at("c"), val.at("d"), val.at("z"), material);
+            }else if(type == "yz"){
+                plane = new PlaneYZ(val.at("a"), val.at("b"), val.at("c"), val.at("d"), val.at("z"), material);
+            }
 
-    // right wall
-    list[pointer++] = new PlaneYZ(0, 50, 0, 50, 0, blue);
-    // list[pointer++] = new PlaneYZ(100, 455, 100, 455, 0, light);
+            // check if the plane is intended to be flipped
+            if(flipped){
+                list[pointer++] = new flippedBasicObject(plane);
+            }else{
+                list[pointer++] = plane;
+            }
+        }
+    } catch(std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
 
-    // floor
-    list[pointer++] = new PlaneXZ(0, 50, 0, 50, 0, white);
-
-    // back wall
-    list[pointer++] = new flip_normals(new PlaneXY(0, 50, 0, 50, 50, white));
-    return new Scene(list,pointer, cam);
+    // Build the new scene
+    Scene *scene = new Scene(list, pointer);
+    scene->setCamera(cam);
+    return scene;
 }
 
 #endif
