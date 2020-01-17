@@ -17,14 +17,13 @@ class Vec {
             z = z_;
         }
 
-        double getX() { return x; }
-        double getY() { return y; }
-        double getZ() { return z; }
-
+        double getX();
+        double getY();
+        double getZ();
         double length() const;
-        inline double squared_length() const { return x*x + y*y + z*z; }
+        inline double notSquaredLength() const;
         Vec normalise() const;
-        Vec& operator-=(const Vec &a);
         void print();
+        Vec& operator-=(const Vec &a);
 };
 #endif

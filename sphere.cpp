@@ -1,4 +1,4 @@
-#include "sphere.h"
+#include "basic_object.h"
 
 Sphere::Sphere(Vec _center, double _radius, Material *_mat){
     center = _center;

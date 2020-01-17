@@ -1,6 +1,5 @@
 #include "renderer.h"
-#include "scene.h"
-#include "scene_reader.h"
+#include "scene_reader.cpp"
 
 Renderer::Renderer(int _width, int _height, int _sampelsPerPixel, std::string _filePath){
     width = _width;

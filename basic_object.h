@@ -1,7 +1,7 @@
 #ifndef BASIC_OBJECTH
 #define BASIC_OBJECTH
 
-#include "ray.h"
+#include "ray.cpp"
 
 class Material; // Alert the compiler that the pointer currentMaterial is to a class
 
@@ -22,23 +22,35 @@ class BasicObject {
 };
 
 // This class holds another BasicObject and reverses the normals
-class flippedBasicObject : public BasicObject {
+class FlippedBasicObject : public BasicObject {
     public:
-        flippedBasicObject(BasicObject *_basicObject){
-            basicObject = _basicObject;
-        }
-        ~flippedBasicObject(){
-            delete basicObject;
-        }
-        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const {
-            if (basicObject->hit(r, tMin, tMax, objData)){
-                objData.normal -= objData.normal;
-                return true;
-            }
-            return false;
-        }
+        FlippedBasicObject(BasicObject *_basicObject);
+        ~FlippedBasicObject();
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
     private:
         BasicObject *basicObject;
+};
+
+class Sphere: public BasicObject {
+    public:
+        Sphere(Vec _center, double _radius, Material *_mat);
+        ~Sphere(){}
+        virtual bool hit(const Ray &ray, double tMin, double tMax, objectData &objData) const;
+    private:
+        Vec center;
+        double radius;
+        Material* mat;
+};
+
+class Cube: public BasicObject  {
+    public:
+        Cube(Vec _center, double _size, Material *_material);
+        ~Cube();
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
+    private:
+        Vec center;
+        double size;
+        BasicObject *cubeObjects;
 };
 
 

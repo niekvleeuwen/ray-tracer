@@ -1,4 +1,4 @@
-#include "scene.h"
+#include "scene.cpp"
 #include "renderer.cpp"
 
 int main() {

@@ -44,11 +44,11 @@ class PlaneXZ: public Plane {
 
 
 bool PlaneXY::hit(const Ray &r, double tMin, double tMax, objectData &objData) const {
-    double t = (z-r.getOrigin().z) / r.getDirection().z;
+    double t = (z-r.getOrigin().getZ()) / r.getDirection().getZ();
     if (t < tMin || t > tMax)
         return false;
-    double x = r.getOrigin().x + t*r.getDirection().x;
-    double y = r.getOrigin().y + t*r.getDirection().y;
+    double x = r.getOrigin().getX() + t*r.getDirection().getX();
+    double y = r.getOrigin().getY() + t*r.getDirection().getY();
     if (x < a || x > b || y < c || y > d) 
         return false;
     objData.u = (x-a)/(b-a);
@@ -61,11 +61,11 @@ bool PlaneXY::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
 }
 
 bool PlaneXZ::hit(const Ray &r, double tMin, double tMax, objectData &objData) const {
-    double t = (z-r.getOrigin().y) / r.getDirection().y;
+    double t = (z-r.getOrigin().getY()) / r.getDirection().getY();
     if (t < tMin || t > tMax)
         return false;
-    double x = r.getOrigin().x + t*r.getDirection().x;
-    double z = r.getOrigin().z + t*r.getDirection().z;
+    double x = r.getOrigin().getX() + t*r.getDirection().getX();
+    double z = r.getOrigin().getZ() + t*r.getDirection().getZ();
     if (x < a || x > b || z < c || z > d) 
         return false;
     objData.u = (x-a)/(b-a);
@@ -78,11 +78,11 @@ bool PlaneXZ::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
 }
 
 bool PlaneYZ::hit(const Ray &r, double tMin, double tMax, objectData &objData) const {
-    double t = (z-r.getOrigin().x) / r.getDirection().x;
+    double t = (z-r.getOrigin().getX()) / r.getDirection().getX();
     if (t < tMin || t > tMax)
         return false;
-    double y = r.getOrigin().y + t*r.getDirection().y;
-    double z = r.getOrigin().z + t*r.getDirection().z;
+    double y = r.getOrigin().getY() + t*r.getDirection().getY();
+    double z = r.getOrigin().getZ() + t*r.getDirection().getZ();
     if (y < a || y > b || z < c || z > d){
         return false;
     } else{

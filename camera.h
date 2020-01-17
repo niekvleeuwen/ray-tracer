@@ -1,8 +1,6 @@
 #ifndef CAMERAH
 #define CAMERAH
 
-#include "ray.h"
-
 class Camera {
     public:
         Camera(){}
@@ -13,7 +11,6 @@ class Camera {
         Vec lower_left_corner;
         Vec horizontal;
         Vec vertical;
-
 };
 
 #endif

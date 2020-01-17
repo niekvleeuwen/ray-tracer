@@ -1,6 +1,6 @@
 #include "camera.h"
 
-// setup camera
+// Setup camera
 Camera::Camera(Vec cameraPosition, Vec CameraLookTo, double verticalFOV, double aspectWidthHeight) {
     float theta = verticalFOV*M_PI/180; // Field of view is top to bottom in degrees
     float half_height = tan(theta/2);

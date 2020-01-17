@@ -1,8 +1,24 @@
 #include "vector.h"
 
+double Vec::getX(){ 
+    return x;
+}
+
+double Vec::getY(){ 
+    return y; 
+    }
+double Vec::getZ(){ 
+    return z; 
+}
+
 // Calculate the length
 double Vec::length() const {
     return sqrt(x*x + y*y + z*z);
+}
+
+// Return the length without doing taking the square root
+inline double Vec::notSquaredLength() const { 
+    return x*x + y*y + z*z; 
 }
 
 // Normalise the vector
@@ -11,10 +27,13 @@ Vec Vec::normalise() const {
     return Vec(x/l, y/l, z/l);
 }
 
+
+// Print the fields
 void Vec::print(){
-    printf("(%f,%f,%f)\n",x,y,z);
+    std::cout << "("<< x << "," << y << "," << z << ")" << std::endl;
 }
 
+// Substract the vectors with another vector
 Vec &Vec::operator-=(const Vec& a) {
     x -= x;
     y -= y;
@@ -57,19 +76,16 @@ Vec operator/(Vec v, double t) {
 
 // Dot product of two vectors
 inline double dot(const Vec &a, const Vec &b) {
-    return a.x * b.x
-         + a.y * b.y
-         + a.z * b.z;
+    return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
 // Cross product of vectors
 inline Vec cross(const Vec &a, const Vec &b) {
-    return Vec(a.y * b.z - a.z * b.y,
-                a.z * b.x - a.x * b.z,
-                a.x * b.y - a.y * b.x);
+    return Vec(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 }
 
 // Return the unit vector
 inline Vec unit_vector(Vec v) {
     return v / v.length();
 }
+
