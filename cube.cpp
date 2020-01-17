@@ -1,10 +1,11 @@
 #include "cube.h"
 
-Cube::Cube(const Vec& _center, double _size, Material *ptr) {
+Cube::Cube(Vec _center, double _size, Material *_material){
     center = _center;
     size = _size;
     BasicObject **list = new BasicObject*[6];
-
+    
+    // Define the corner points of the cube
     int xMin = center.x - size;
     int yMin = center.y - size;
     int zMin = center.z - size;
@@ -12,15 +13,21 @@ Cube::Cube(const Vec& _center, double _size, Material *ptr) {
     int yPlus = center.y + size;
     int zPlus = center.z + size;
 
-    list[0] = new PlaneXY(xMin, xPlus, yMin, yPlus, zPlus, ptr);
-    list[1] = new flip_normals(new PlaneXY(xMin, xPlus, yMin, yPlus, zMin, ptr));
-    list[2] = new PlaneXZ(xMin, xPlus, zMin, zPlus, yPlus, ptr);
-    list[3] = new flip_normals(new PlaneXZ(xMin, xPlus, zMin, zPlus, yMin, ptr));
-    list[4] = new PlaneYZ(yMin, yPlus, zMin, zPlus, xPlus, ptr);
-    list[5] = new flip_normals(new PlaneYZ(yMin, yPlus, zMin, zPlus, xMin, ptr));
-    list_ptr = new Scene(list,6, Camera()); //fix the empty camera
+    // The cube consists out of 6 planes stored in a scene
+    list[0] = new PlaneXY(xMin, xPlus, yMin, yPlus, zPlus, _material);
+    list[1] = new flippedBasicObject(new PlaneXY(xMin, xPlus, yMin, yPlus, zMin, _material));
+    list[2] = new PlaneXZ(xMin, xPlus, zMin, zPlus, yPlus, _material);
+    list[3] = new flippedBasicObject(new PlaneXZ(xMin, xPlus, zMin, zPlus, yMin, _material));
+    list[4] = new PlaneYZ(yMin, yPlus, zMin, zPlus, xPlus, _material);
+    list[5] = new flippedBasicObject(new PlaneYZ(yMin, yPlus, zMin, zPlus, xMin, _material));
+    cubeObjects = new Scene(list,6);
 }
 
-bool Cube::hit(const Ray& r, double t0, double t1, objectData& rec) const {
-    return list_ptr->hit(r, t0, t1, rec);
+Cube::~Cube(){
+    //delete cubeObjects;
+    std::cout << "deleted" << std::endl;
+}
+
+bool Cube::hit(const Ray &r, double tMin, double tMax, objectData &objData) const {
+    return cubeObjects->hit(r, tMin, tMax, objData);
 }

@@ -3,8 +3,9 @@
 
 #include "ray.h"
 
-class Material; //Alert the compiler that the pointer currentMaterial is to a class
+class Material; // Alert the compiler that the pointer currentMaterial is to a class
 
+// This struct is used to prevent the use of 6 paramaters in every function
 struct objectData{
     double t;  
     double u;
@@ -16,24 +17,28 @@ struct objectData{
 
 class BasicObject {
     public:
-        virtual bool hit(const Ray& r, double t_min, double t_max, objectData& rec) const = 0;
+        virtual ~BasicObject(){};
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const = 0;
 };
 
-class flip_normals : public BasicObject {
+// This class holds another BasicObject and reverses the normals
+class flippedBasicObject : public BasicObject {
     public:
-        flip_normals(BasicObject *p) : ptr(p) {}
-
-        virtual bool hit(
-            const Ray& r, double t_min, double t_max, objectData& rec) const {
-
-            if (ptr->hit(r, t_min, t_max, rec)) {
-                rec.normal -= rec.normal;
+        flippedBasicObject(BasicObject *_basicObject){
+            basicObject = _basicObject;
+        }
+        ~flippedBasicObject(){
+            delete basicObject;
+        }
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const {
+            if (basicObject->hit(r, tMin, tMax, objData)){
+                objData.normal -= objData.normal;
                 return true;
             }
-            else
-                return false;
+            return false;
         }
-        BasicObject *ptr;
+    private:
+        BasicObject *basicObject;
 };
 
 

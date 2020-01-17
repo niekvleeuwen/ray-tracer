@@ -6,12 +6,13 @@
 
 class Cube: public BasicObject  {
     public:
-        Cube(const Vec& center, double size, Material *ptr);
-        virtual bool hit(const Ray& r, double t0, double t1, objectData& rec) const;
+        Cube(Vec _center, double _size, Material *_material);
+        ~Cube();
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
     private:
         Vec center;
         double size;
-        BasicObject *list_ptr;
+        BasicObject *cubeObjects;
 };
 
 #endif

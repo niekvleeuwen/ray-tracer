@@ -7,7 +7,7 @@ Sphere::Sphere(Vec _center, double _radius, Material *_mat){
 }
 
 // Calculate the distance between a sphere and a ray between given t min and t max
-bool Sphere::hit(const Ray& ray, double t_min, double t_max, objectData& rec) const {
+bool Sphere::hit(const Ray &ray, double tMin, double tMax, objectData &objData) const {
      /*
         Calculate the discrimant of the following equation using the ABC formula
         dot((P-C),(P-C)) = r^2
@@ -22,19 +22,19 @@ bool Sphere::hit(const Ray& ray, double t_min, double t_max, objectData& rec) co
     double discriminant = b*b - a*c;
         if(discriminant > 0){
         double d = (-b - sqrt(discriminant))/a;
-        if (d < t_max && d > t_min) {
-            rec.t = d;
-            rec.p = ray.getPoint(rec.t);
-            rec.normal = (rec.p - center) / radius;
-            rec.currentMaterial = mat;
+        if (d < tMax && d > tMin) {
+            objData.t = d;
+            objData.p = ray.getPoint(objData.t);
+            objData.normal = (objData.p - center) / radius;
+            objData.currentMaterial = mat;
             return true;
         }
         d = (-b + sqrt(discriminant)) / a;
-        if (d < t_max && d > t_min) {
-            rec.t = d;
-            rec.p = ray.getPoint(rec.t);
-            rec.normal = (rec.p - center) / radius;
-            rec.currentMaterial = mat;
+        if (d < tMax && d > tMin) {
+            objData.t = d;
+            objData.p = ray.getPoint(objData.t);
+            objData.normal = (objData.p - center) / radius;
+            objData.currentMaterial = mat;
             return true;
         }
     }

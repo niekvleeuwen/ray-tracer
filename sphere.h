@@ -6,7 +6,8 @@
 class Sphere: public BasicObject {
     public:
         Sphere(Vec _center, double _radius, Material *_mat);
-        virtual bool hit(const Ray& ray, double tmin, double tmax, objectData& rec) const;
+        ~Sphere(){}
+        virtual bool hit(const Ray &ray, double tMin, double tMax, objectData &objData) const;
     private:
         Vec center;
         double radius;
