@@ -1,5 +1,5 @@
 #include "basic_object.h"
-#include "plane.h"
+#include "planes.h"
 
 Cube::Cube(Vec _center, double _size, Material *_material){
     center = _center;

@@ -7,6 +7,7 @@
 #include <iostream>
 #include "cube.cpp"
 #include "sphere.cpp"
+#include "planes.cpp"
 #include "camera.cpp"
 #include "flipped_basic_object.cpp"
 #include "light.cpp"
