@@ -20,7 +20,7 @@ class SceneReader{
     public:
         SceneReader(int _widht, int _height, std::string _scenePath);
         int parseJson();
-        Scene *getScene();
+        RayTracer *getScene();
     private:
         json scene;
         BasicObject **list;

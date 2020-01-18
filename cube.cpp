@@ -21,7 +21,7 @@ Cube::Cube(Vec _center, double _size, Material *_material){
     list[3] = new FlippedBasicObject(new PlaneXZ(xMin, xPlus, zMin, zPlus, yMin, _material));
     list[4] = new PlaneYZ(yMin, yPlus, zMin, zPlus, xPlus, _material);
     list[5] = new FlippedBasicObject(new PlaneYZ(yMin, yPlus, zMin, zPlus, xMin, _material));
-    cubeObjects = new Scene(list,6);
+    cubeObjects = new RayTracer(list,6);
 }
 
 Cube::~Cube(){

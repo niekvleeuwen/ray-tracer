@@ -10,7 +10,7 @@ int main() {
 
     // Retrieve the scene from the scene reader object
     SceneReader r(width, height, scenePath);
-    Scene* scene = r.getScene();
+    RayTracer* scene = r.getScene();
 
     // render the scene
     Renderer render(width, height, sampelsPerPixel, filePath);

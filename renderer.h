@@ -8,7 +8,7 @@ class Renderer {
     public:
         Renderer(int _width, int _height, int _sampelsPerPixel, std::string _filePath);
         void initFile();
-        bool renderScene(Scene* _scene);
+        bool renderScene(RayTracer *_scene);
         void writeColorToFile(Vec color);
         void updateProgressBar(int rowsDone);
     private:

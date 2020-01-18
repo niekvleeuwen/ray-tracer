@@ -22,7 +22,7 @@ int SceneReader::parseJson(){
 }
 
 // This function converts the JSON object in a scene and returns it;
-Scene *SceneReader::getScene(){
+RayTracer *SceneReader::getScene(){
     this->parseJson();
     // give the array a size based on the number of objects in the scene
     list = new BasicObject*[scene.size() + 7];
@@ -111,7 +111,7 @@ Scene *SceneReader::getScene(){
     }
 
     // Build the new scene
-    Scene *scene = new Scene(list, pointer);
+    RayTracer *scene = new RayTracer(list, pointer);
     scene->setCamera(cam);
     return scene;
 }

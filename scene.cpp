@@ -1,21 +1,21 @@
 #include "scene.h"
 
-Scene::Scene(BasicObject **_list, int _listSize){
+RayTracer::RayTracer(BasicObject **_list, int _listSize){
     list = _list; 
     listSize = _listSize;
 }
 
-void Scene::setCamera(Camera *_cam){
+void RayTracer::setCamera(Camera *_cam){
     cam = _cam;
 }
 
 // This function takes the x,y and returns to color for that given pixel
-Vec Scene::getColor(double x, double y){
+Vec RayTracer::getColor(double x, double y){
     Ray r = cam->getRay(x, y);
     return this->trace(r, 0);
 }
 
-Vec Scene::trace(const Ray &r, int depth) {
+Vec RayTracer::trace(const Ray &r, int depth) {
     objectData objData;
     // Check if the ray hits something
     if (this->hit(r, 0.001, MAXFLOAT, objData)) {
@@ -32,7 +32,7 @@ Vec Scene::trace(const Ray &r, int depth) {
     }
 }
 
-bool Scene::hit(const Ray &r, double t_min, double t_max, objectData &objData) const {
+bool RayTracer::hit(const Ray &r, double t_min, double t_max, objectData &objData) const {
     objectData tmp;
     bool hit_anything = false;
     double currentClosest = t_max;

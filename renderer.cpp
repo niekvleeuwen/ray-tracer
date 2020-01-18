@@ -10,7 +10,7 @@ Renderer::Renderer(int _width, int _height, int _sampelsPerPixel, std::string _f
 }
 
 // This function renders retrieves a scene from the scene reader and renders the scene to an image
-bool Renderer::renderScene(Scene* scene){
+bool Renderer::renderScene(RayTracer *scene){
     std::cout << "Starting with the render..." << std::endl;
     // Loop trough every pixel
     for (int i = height; i >= 0; i--) {
