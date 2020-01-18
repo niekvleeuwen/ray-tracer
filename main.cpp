@@ -12,7 +12,7 @@ int main() {
     SceneReader r(width, height, scenePath);
     RayTracer* scene = r.getScene();
 
-    // render the scene
+    // Render the scene
     Renderer render(width, height, sampelsPerPixel, filePath);
     render.renderScene(scene); // Start rendering
     std::cout << std::endl << "Rendering done!" << std::endl; 

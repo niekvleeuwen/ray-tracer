@@ -40,6 +40,7 @@ Vector3D RayTracer::trace(const Ray &r, int depth) {
     }
 }
 
+// This function finds the closest object for a given ray
 bool RayTracer::hit(const Ray &r, double t_min, double t_max, objectData &objData) const {
     objectData tmp;
     bool hit_anything = false;

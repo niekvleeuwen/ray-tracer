@@ -4,6 +4,7 @@ Diffuse::Diffuse(Vector3D _color){
     color = _color;
 }
 
+// This functions picks a random point in a unit radius sphere
 Vector3D Diffuse::random_in_unit_sphere() const {
     Vector3D p;
     do {
@@ -16,6 +17,7 @@ double Diffuse::randomDouble() const {
     return rand() / (RAND_MAX + 1.0);
 }
 
+// Produce a scattered ray and set the attenuation
 bool Diffuse::scatter(const Ray &r_in, const objectData &objData, Vector3D &attenuation, Ray &scattered) const {
     Vector3D random = random_in_unit_sphere();
     Vector3D target = objData.p + objData.normal + random;

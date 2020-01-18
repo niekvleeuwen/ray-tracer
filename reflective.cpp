@@ -11,6 +11,7 @@ bool Reflective::scatter(const Ray &r_in, const objectData &objData, Vector3D &a
     return (dot(scattered.getDirection(), objData.normal) > 0);
 }
 
+// This function calculates the reflected ray direction
 Vector3D Reflective::reflect(const Vector3D &v, const Vector3D &n) const {
      return v - 2*dot(v,n)*n;
 }
