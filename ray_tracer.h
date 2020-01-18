@@ -2,8 +2,8 @@
 #define RAYTRACERH
 
 #include "basic_object.h"
-#include "materials.h"
 #include "camera.h"
+#include "materials.cpp"
 
 class RayTracer: public BasicObject  {
     public:

@@ -9,9 +9,7 @@ class Material  {
     public:
         virtual ~Material(){}
         virtual bool scatter(const Ray &r_in, const objectData &objData, Vector3D& attenuation, Ray& scattered) const = 0;
-        virtual Vector3D emitted(float u, float v, const Vector3D& p) const {
-            return Vector3D(0,0,0); // On default return black (for non emitting objects)
-        }
+        virtual Vector3D emitted(float u, float v, const Vector3D& p) const;
 };
 
 class Diffuse : public Material {

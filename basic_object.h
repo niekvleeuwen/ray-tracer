@@ -62,7 +62,7 @@ class Plane: public BasicObject  {
         double a,b,c,d,z;
 };
 
-class PlaneXY: public virtual Plane {
+class PlaneXY: public Plane {
     public:
         using Plane::Plane;
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
