@@ -1,4 +1,4 @@
-#include "scene.cpp"
+#include "ray_tracer.cpp"
 #include "renderer.cpp"
 
 int main() {

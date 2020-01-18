@@ -34,7 +34,7 @@ class Light : public Material {
 
 class Reflective : public Material {
     public:
-        Reflective(const Vector3D &a);
+        Reflective(const Vector3D &_albedo);
         Vector3D reflect(const Vector3D &v, const Vector3D &n) const;
         virtual bool scatter(const Ray &r_in, const objectData &objData, Vector3D &attenuation, Ray &scattered) const;
     private:

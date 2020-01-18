@@ -1,4 +1,4 @@
-#include "scene.h"
+#include "ray_tracer.h"
 
 RayTracer::RayTracer(BasicObject **_list, int _listSize){
     list = _list; 

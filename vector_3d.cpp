@@ -1,5 +1,11 @@
 #include "vector_3d.h"
 
+Vector3D::Vector3D(double _x, double _y, double _z) {
+    x = _x;
+    y = _y;
+    z = _z;
+}
+
 double Vector3D::getX(){ 
     return x;
 }

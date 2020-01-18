@@ -1,5 +1,5 @@
 #include "scene_reader.h"
-#include "scene.h"
+#include "ray_tracer.h"
 
 SceneReader::SceneReader(int _widht, int _height, std::string _scenePath){
     width = _widht;

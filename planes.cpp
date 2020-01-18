@@ -1,4 +1,18 @@
-#include "planes.h"
+#include "basic_object.h"
+
+Plane::Plane(double _a, double _b, double _c, double _d, double _z, Material *_mat){
+    a = _a;
+    b = _b;
+    c = _c;
+    d = _d;
+    z = _z;
+    mat = _mat;
+}
+
+bool Plane::hit(const Ray &r, double tMin, double tMax, objectData &objData) const{
+    // default hit implementation, overridden in childs
+    return false; 
+}
 
 bool PlaneXY::hit(const Ray &r, double tMin, double tMax, objectData &objData) const {
     double t = (z-r.getOrigin().getZ()) / r.getDirection().getZ();

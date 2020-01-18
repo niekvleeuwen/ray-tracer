@@ -39,7 +39,7 @@ class Sphere: public BasicObject {
     private:
         Vector3D center;
         double radius;
-        Material* mat;
+        Material *mat;
 };
 
 class Cube: public BasicObject  {
@@ -53,5 +53,31 @@ class Cube: public BasicObject  {
         BasicObject *cubeObjects;
 };
 
+class Plane: public BasicObject  {
+    public:
+        Plane(double _a, double _b, double _c, double _d, double _z, Material *_mat);
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
+    protected:
+        Material *mat;
+        double a,b,c,d,z;
+};
+
+class PlaneXY: public virtual Plane {
+    public:
+        using Plane::Plane;
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
+};
+
+class PlaneYZ: public Plane {
+    public:
+        using Plane::Plane;
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
+};
+
+class PlaneXZ: public Plane {
+    public:
+        using Plane::Plane;
+        virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
+};
 
 #endif

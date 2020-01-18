@@ -18,7 +18,7 @@ using json = nlohmann::json;
 
 class SceneReader{
     public:
-        SceneReader(int _widht, int _height, std::string _scenePath);
+        SceneReader(int _width, int _height, std::string _scenePath);
         int parseJson();
         RayTracer *getScene();
     private:
