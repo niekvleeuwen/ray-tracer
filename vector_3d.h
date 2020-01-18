@@ -5,13 +5,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-class Vec {
+class Vector3D {
     public:
         // Every vector has an X, Y and Z. Colors use this as (R, G, B)
         double x, y, z; 
         
         // Constructor of the Vector
-        Vec(double x_=0, double y_=0, double z_=0) {
+        Vector3D(double x_=0, double y_=0, double z_=0) {
             x = x_;
             y = y_;
             z = z_;
@@ -22,8 +22,8 @@ class Vec {
         double getZ();
         double length() const;
         inline double notSquaredLength() const;
-        Vec normalise() const;
+        Vector3D normalise() const;
         void print();
-        Vec& operator-=(const Vec &a);
+        Vector3D& operator-=(const Vector3D &a);
 };
 #endif

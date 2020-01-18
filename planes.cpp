@@ -13,7 +13,7 @@ bool PlaneXY::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
     objData.t = t;
     objData.currentMaterial = mat;
     objData.p = r.getPoint(t);
-    objData.normal = Vec(0, 0, 1);
+    objData.normal = Vector3D(0, 0, 1);
     return true;
 }
 
@@ -30,7 +30,7 @@ bool PlaneXZ::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
     objData.t = t;
     objData.currentMaterial = mat;
     objData.p = r.getPoint(t);
-    objData.normal = Vec(0, 1, 0);
+    objData.normal = Vector3D(0, 1, 0);
     return true;
 }
 
@@ -48,7 +48,7 @@ bool PlaneYZ::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
         objData.t = t;
         objData.currentMaterial = mat;
         objData.p = r.getPoint(t);
-        objData.normal = Vec(1, 0, 0);
+        objData.normal = Vector3D(1, 0, 0);
     }
     return true;
 }

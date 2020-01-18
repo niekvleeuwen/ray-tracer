@@ -1,18 +1,18 @@
 #ifndef RAY
 #define RAY
-#include "vector.cpp"
+#include "vector_3d.cpp"
 
 class Ray
 {
     public:
         Ray();
-        Ray(const Vec& _origin, const Vec& _direction);
-        Vec getOrigin() const;
-        Vec getDirection() const;
-        Vec getPoint(double t) const;
+        Ray(const Vector3D& _origin, const Vector3D& _direction);
+        Vector3D getOrigin() const;
+        Vector3D getDirection() const;
+        Vector3D getPoint(double t) const;
     private:
-        Vec origin;
-        Vec direction;
+        Vector3D origin;
+        Vector3D direction;
 
 };
 

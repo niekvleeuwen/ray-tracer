@@ -15,7 +15,7 @@ bool Renderer::renderScene(RayTracer *scene){
     // Loop trough every pixel
     for (int i = height; i >= 0; i--) {
         for (int j = 0; j < width; j++) {
-            Vec color(0, 0, 0);
+            Vector3D color(0, 0, 0);
             // For a given pixel take several samples with the random function within that pixel and send rays through each of the samples
             for (int s = 0; s < sampelsPerPixel; s++) {
                 double sampleX = double(j + rand() / (RAND_MAX + 1.0)) / double(width);
@@ -25,7 +25,7 @@ bool Renderer::renderScene(RayTracer *scene){
             // Average the colors
             color = color / double(sampelsPerPixel);
             // Raising the color to the power of 1/gamma,
-            color = Vec(sqrt(color.getX()), sqrt(color.getY()), sqrt(color.getZ()));
+            color = Vector3D(sqrt(color.getX()), sqrt(color.getY()), sqrt(color.getZ()));
             writeColorToFile(color);
         }
         // Display the current procentage
@@ -46,7 +46,7 @@ void Renderer::initFile(){
 }
 
 // This function writes the color to the specified file
-void Renderer::writeColorToFile(Vec color){
+void Renderer::writeColorToFile(Vector3D color){
     // Write the colors to the file
     img << int(255.99*color.getX()) << " " << int(255.99*color.getY()) << " " << int(255.99*color.getZ()) << "\n";  
 }

@@ -9,7 +9,7 @@ class Renderer {
         Renderer(int _width, int _height, int _sampelsPerPixel, std::string _filePath);
         void initFile();
         bool renderScene(RayTracer *_scene);
-        void writeColorToFile(Vec color);
+        void writeColorToFile(Vector3D color);
         void updateProgressBar(int rowsDone);
     private:
         int width; 

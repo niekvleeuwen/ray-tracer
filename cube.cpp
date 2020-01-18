@@ -1,7 +1,7 @@
 #include "basic_object.h"
 #include "planes.h"
 
-Cube::Cube(Vec _center, double _size, Material *_material){
+Cube::Cube(Vector3D _center, double _size, Material *_material){
     center = _center;
     size = _size;
     BasicObject **list = new BasicObject*[6];

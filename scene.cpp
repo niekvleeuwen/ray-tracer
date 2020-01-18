@@ -10,25 +10,25 @@ void RayTracer::setCamera(Camera *_cam){
 }
 
 // This function takes the x,y and returns to color for that given pixel
-Vec RayTracer::getColor(double x, double y){
+Vector3D RayTracer::getColor(double x, double y){
     Ray r = cam->getRay(x, y);
     return this->trace(r, 0);
 }
 
-Vec RayTracer::trace(const Ray &r, int depth) {
+Vector3D RayTracer::trace(const Ray &r, int depth) {
     objectData objData;
     // Check if the ray hits something
     if (this->hit(r, 0.001, MAXFLOAT, objData)) {
         Ray scattered;
-        Vec attenuation;
-        Vec emitted = objData.currentMaterial->emitted(objData.u, objData.v, objData.p);
+        Vector3D attenuation;
+        Vector3D emitted = objData.currentMaterial->emitted(objData.u, objData.v, objData.p);
         if (depth < 25 && objData.currentMaterial->scatter(r, objData, attenuation, scattered))
              return emitted + attenuation*trace(scattered, depth+1);
         else
             return emitted;
     }else{
         // Return black if the ray hits nothing
-        return Vec(0,0,0);
+        return Vector3D(0,0,0);
     }
 }
 

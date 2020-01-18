@@ -34,8 +34,8 @@ RayTracer *SceneReader::getScene(){
         int fieldOfView = array.at("fov");
         auto&& lookFromPoint = array.at("lookFromPoint");
         auto&& lookToPoint = array.at("lookToPoint");
-        Vec cameraPosition(lookFromPoint.at("x"), lookFromPoint.at("y"), lookFromPoint.at("z"));
-        Vec cameraLookTo(lookToPoint.at("x"), lookToPoint.at("y"), lookToPoint.at("z"));
+        Vector3D cameraPosition(lookFromPoint.at("x"), lookFromPoint.at("y"), lookFromPoint.at("z"));
+        Vector3D cameraLookTo(lookToPoint.at("x"), lookToPoint.at("y"), lookToPoint.at("z"));
         cam = new Camera(cameraPosition, cameraLookTo, fieldOfView, double(width)/double(height));
     } catch(std::exception&) {
         std::cout << "No camera found, add a camera to the Scene" << std::endl;
@@ -50,9 +50,9 @@ RayTracer *SceneReader::getScene(){
             std::string material = val.at("material");
             if(material == "diffuse"){
                 auto&& color = val.at("color");
-                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Diffuse(Vec(color.at("r"), color.at("g"), color.at("b"))));
+                list[pointer++] = new Sphere(Vector3D(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Diffuse(Vector3D(color.at("r"), color.at("g"), color.at("b"))));
             }else if(material == "reflective"){
-                list[pointer++] = new Sphere(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Reflective(Vec(0.7, 0.6, 0.5)));
+                list[pointer++] = new Sphere(Vector3D(val.at("x"), val.at("y"), val.at("z")), val.at("radius"), new Reflective(Vector3D(0.7, 0.6, 0.5)));
             }else{
                 std::cout << material << " is not supported as a material." << std::endl;
             }
@@ -66,7 +66,7 @@ RayTracer *SceneReader::getScene(){
         auto& array = scene.at("cube");
         for (auto&& val: array) {
             auto&& color = val.at("color");
-            list[pointer++] = new Cube(Vec(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Diffuse(Vec(color.at("r"), color.at("g"), color.at("b"))));
+            list[pointer++] = new Cube(Vector3D(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Diffuse(Vector3D(color.at("r"), color.at("g"), color.at("b"))));
         }
     } catch(std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
@@ -84,9 +84,9 @@ RayTracer *SceneReader::getScene(){
 
             // First define the material
             if(materialType == "diffuse"){
-                material = new Diffuse(Vec(color.at("r"), color.at("g"), color.at("b")));
+                material = new Diffuse(Vector3D(color.at("r"), color.at("g"), color.at("b")));
             }else if(materialType == "light"){
-                material = new Light(Vec(color.at("r"), color.at("g"), color.at("b")));
+                material = new Light(Vector3D(color.at("r"), color.at("g"), color.at("b")));
             }
             
             // Check which axis the plane has to be

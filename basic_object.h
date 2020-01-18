@@ -10,8 +10,8 @@ struct objectData{
     double t;  
     double u;
     double v;
-    Vec p;
-    Vec normal;
+    Vector3D p;
+    Vector3D normal;
     Material *currentMaterial;
 };
 
@@ -33,22 +33,22 @@ class FlippedBasicObject : public BasicObject {
 
 class Sphere: public BasicObject {
     public:
-        Sphere(Vec _center, double _radius, Material *_mat);
+        Sphere(Vector3D _center, double _radius, Material *_mat);
         ~Sphere(){}
         virtual bool hit(const Ray &ray, double tMin, double tMax, objectData &objData) const;
     private:
-        Vec center;
+        Vector3D center;
         double radius;
         Material* mat;
 };
 
 class Cube: public BasicObject  {
     public:
-        Cube(Vec _center, double _size, Material *_material);
+        Cube(Vector3D _center, double _size, Material *_material);
         ~Cube();
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
     private:
-        Vec center;
+        Vector3D center;
         double size;
         BasicObject *cubeObjects;
 };

@@ -1,13 +1,13 @@
 #include "materials.h"
 
-Diffuse::Diffuse(Vec _color){
+Diffuse::Diffuse(Vector3D _color){
     color = _color;
 }
 
-Vec Diffuse::random_in_unit_sphere() const {
-    Vec p;
+Vector3D Diffuse::random_in_unit_sphere() const {
+    Vector3D p;
     do {
-        p = 2.0*Vec(randomDouble(),randomDouble(),randomDouble()) - Vec(1,1,1);
+        p = 2.0*Vector3D(randomDouble(),randomDouble(),randomDouble()) - Vector3D(1,1,1);
     } while (p.notSquaredLength() >= 1.0);
     return p;
 }
@@ -16,9 +16,9 @@ double Diffuse::randomDouble() const {
     return rand() / (RAND_MAX + 1.0);
 }
 
-bool Diffuse::scatter(const Ray &r_in, const objectData &objData, Vec &attenuation, Ray &scattered) const {
-    Vec random = random_in_unit_sphere();
-    Vec target = objData.p + objData.normal + random;
+bool Diffuse::scatter(const Ray &r_in, const objectData &objData, Vector3D &attenuation, Ray &scattered) const {
+    Vector3D random = random_in_unit_sphere();
+    Vector3D target = objData.p + objData.normal + random;
     scattered = Ray(objData.p, target - objData.p);
     attenuation = color;
     return true;
