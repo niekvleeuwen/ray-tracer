@@ -5,6 +5,13 @@ RayTracer::RayTracer(BasicObject **_list, int _listSize){
     listSize = _listSize;
 }
 
+RayTracer::~RayTracer(){
+    delete cam;
+    for(int i = 0; i < listSize; i++){
+        delete list[i];
+    }
+}
+
 void RayTracer::setCamera(Camera *_cam){
     cam = _cam;
 }
@@ -15,6 +22,7 @@ Vector3D RayTracer::getColor(double x, double y){
     return this->trace(r, 0);
 }
 
+// This function does the recursive ray tracing
 Vector3D RayTracer::trace(const Ray &r, int depth) {
     objectData objData;
     // Check if the ray hits something

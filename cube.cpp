@@ -24,8 +24,7 @@ Cube::Cube(Vector3D _center, double _size, Material *_material){
 }
 
 Cube::~Cube(){
-    //delete cubeObjects;
-    std::cout << "deleted" << std::endl;
+    delete cubeObjects;
 }
 
 bool Cube::hit(const Ray &r, double tMin, double tMax, objectData &objData) const {

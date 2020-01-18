@@ -17,7 +17,7 @@ struct objectData{
 
 class BasicObject {
     public:
-        virtual ~BasicObject(){};
+        virtual ~BasicObject(){}; // Implemented in childs
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const = 0;
 };
 
@@ -33,13 +33,13 @@ class FlippedBasicObject : public BasicObject {
 
 class Sphere: public BasicObject {
     public:
-        Sphere(Vector3D _center, double _radius, Material *_mat);
-        ~Sphere(){}
+        Sphere(Vector3D _center, double _radius, Material *_material);
+        ~Sphere();
         virtual bool hit(const Ray &ray, double tMin, double tMax, objectData &objData) const;
     private:
         Vector3D center;
         double radius;
-        Material *mat;
+        Material *material;
 };
 
 class Cube: public BasicObject  {

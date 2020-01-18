@@ -7,8 +7,8 @@
 
 class RayTracer: public BasicObject  {
     public:
-        RayTracer() {}
         RayTracer(BasicObject **_list, int _listSize);
+        ~RayTracer();
         void setCamera(Camera *_cam);
         Vector3D trace(const Ray &r, int depth);
         Vector3D getColor(double x, double y);

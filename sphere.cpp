@@ -1,9 +1,13 @@
 #include "basic_object.h"
 
-Sphere::Sphere(Vector3D _center, double _radius, Material *_mat){
+Sphere::Sphere(Vector3D _center, double _radius, Material *_material){
     center = _center;
     radius = _radius;
-    mat = _mat;
+    material = _material;
+}
+
+Sphere::~Sphere(){
+    delete material;
 }
 
 // Calculate the distance between a sphere and a ray between given t min and t max
@@ -26,7 +30,7 @@ bool Sphere::hit(const Ray &ray, double tMin, double tMax, objectData &objData) 
             objData.t = d;
             objData.p = ray.getPoint(objData.t);
             objData.normal = (objData.p - center) / radius;
-            objData.currentMaterial = mat;
+            objData.currentMaterial = material;
             return true;
         }
         d = (-b + sqrt(discriminant)) / a;
@@ -34,7 +38,7 @@ bool Sphere::hit(const Ray &ray, double tMin, double tMax, objectData &objData) 
             objData.t = d;
             objData.p = ray.getPoint(objData.t);
             objData.normal = (objData.p - center) / radius;
-            objData.currentMaterial = mat;
+            objData.currentMaterial = material;
             return true;
         }
     }
