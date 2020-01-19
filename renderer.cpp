@@ -31,6 +31,8 @@ bool Renderer::renderScene(RayTracer *scene){
         // Display the current procentage
         updateProgressBar(i);
     }
+    // free the memory used by the ray tracer object
+    delete scene;
     return true;
 }
 

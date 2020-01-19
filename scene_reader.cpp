@@ -66,7 +66,7 @@ RayTracer *SceneReader::getScene(){
         auto& array = scene.at("cube");
         for (auto&& val: array) {
             auto&& color = val.at("color");
-            list[pointer++] = new Cube(Vector3D(val.at("x"), val.at("y"), val.at("z")), val.at("size"), new Diffuse(Vector3D(color.at("r"), color.at("g"), color.at("b"))));
+            list[pointer++] = new Cube(Vector3D(val.at("x"), val.at("y"), val.at("z")), val.at("size"), Vector3D(color.at("r"), color.at("g"), color.at("b")));
         }
     } catch(std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;

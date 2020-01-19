@@ -6,10 +6,16 @@ RayTracer::RayTracer(BasicObject **_list, int _listSize){
 }
 
 RayTracer::~RayTracer(){
-    delete cam;
+    // Delete the camera if set
+    if(cam != nullptr){
+        delete cam;
+    }
+    // Delete all the objects in the scene
     for(int i = 0; i < listSize; i++){
         delete list[i];
     }
+    // Delete the list itself
+    delete [] list;
 }
 
 void RayTracer::setCamera(Camera *_cam){

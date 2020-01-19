@@ -1,12 +1,24 @@
 #include "basic_object.h"
 
-Plane::Plane(double _a, double _b, double _c, double _d, double _z, Material *_mat){
+Plane::Plane(double _a, double _b, double _c, double _d, double _z, Material *_material){
     a = _a;
     b = _b;
     c = _c;
     d = _d;
     z = _z;
-    mat = _mat;
+    material = _material;
+}
+
+PlaneXY::~PlaneXY(){
+    delete material;
+}
+
+PlaneYZ::~PlaneYZ(){
+    delete material;
+}
+
+PlaneXZ::~PlaneXZ(){
+    delete material;
 }
 
 // Default hit implementation, overridden in childs
@@ -27,7 +39,7 @@ bool PlaneXY::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
     objData.u = (x-a)/(b-a);
     objData.v = (y-c)/(d-c); 
     objData.t = t;
-    objData.currentMaterial = mat;
+    objData.currentMaterial = material;
     objData.p = r.getPoint(t);
     objData.normal = Vector3D(0, 0, 1);
     return true;
@@ -46,7 +58,7 @@ bool PlaneXZ::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
     objData.u = (x-a)/(b-a);
     objData.v = (z-c)/(d-c); 
     objData.t = t;
-    objData.currentMaterial = mat;
+    objData.currentMaterial = material;
     objData.p = r.getPoint(t);
     objData.normal = Vector3D(0, 1, 0);
     return true;
@@ -65,7 +77,7 @@ bool PlaneYZ::hit(const Ray &r, double tMin, double tMax, objectData &objData) c
     objData.u = (y-a)/(b-a);
     objData.v = (z-c)/(d-c); 
     objData.t = t;
-    objData.currentMaterial = mat;
+    objData.currentMaterial = material;
     objData.p = r.getPoint(t);
     objData.normal = Vector3D(1, 0, 0);
     return true;

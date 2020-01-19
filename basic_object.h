@@ -44,7 +44,7 @@ class Sphere: public BasicObject {
 
 class Cube: public BasicObject  {
     public:
-        Cube(Vector3D _center, double _size, Material *_material);
+        Cube(Vector3D _center, double _size, Vector3D _material);
         ~Cube();
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
     private:
@@ -55,28 +55,32 @@ class Cube: public BasicObject  {
 
 class Plane: public BasicObject  {
     public:
-        Plane(double _a, double _b, double _c, double _d, double _z, Material *_mat);
+        Plane(double _a, double _b, double _c, double _d, double _z, Material *_material);
+        virtual ~Plane(){}; // Implemented in childs
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
     protected:
-        Material *mat;
+        Material *material;
         double a,b,c,d,z;
 };
 
 class PlaneXY: public Plane {
     public:
         using Plane::Plane;
+        ~PlaneXY();
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
 };
 
 class PlaneYZ: public Plane {
     public:
         using Plane::Plane;
+        ~PlaneYZ();
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
 };
 
 class PlaneXZ: public Plane {
     public:
         using Plane::Plane;
+        ~PlaneXZ();
         virtual bool hit(const Ray &r, double tMin, double tMax, objectData &objData) const;
 };
 

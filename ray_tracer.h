@@ -14,7 +14,7 @@ class RayTracer: public BasicObject  {
         Vector3D getColor(double x, double y);
         virtual bool hit(const Ray &r, double tmin, double tmax, objectData &objData) const;
     private:
-        Camera *cam;
+        Camera *cam = nullptr;
         BasicObject **list;
         int listSize;
 };
