@@ -1,7 +1,7 @@
 # ray-tracer
 Object-oriented ray tracer written in C++ 
 
-![Cornell Box](https://raw.githubusercontent.com/niekvleeuwen/ray-tracer/blob/master/renders/cornel_box_5000ssp.png)
+![Cornell Box](https://raw.githubusercontent.com/niekvleeuwen/ray-tracer/master/renders/cornel_box_5000ssp.png)
 
 ## Renders
 Render time for the cornell box on a i5-8250u
